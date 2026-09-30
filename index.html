@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#202020">
+<title>Empire Builder V0.2</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Tahoma,sans-serif;background:#f3f3f3;color:#202020}
+main{max-width:980px;margin:auto;padding:16px}.top{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+h1,h2,h3{margin:0 0 8px}.muted{color:#666;font-size:13px}.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:14px 0}
+.card{background:#fff;border:1px solid #ddd;border-radius:14px;padding:12px}.label{font-size:11px;color:#666}.value{font-size:20px;font-weight:800}
+button{border:1px solid #bbb;border-radius:10px;background:#fff;padding:10px 12px;min-height:44px;cursor:pointer;font-weight:650;color:#202020}
+button:active{transform:translateY(1px)}.primary{background:#202020;color:#fff;border-color:#202020}
+.panel{background:#fff;border:1px solid #ddd;border-radius:16px;padding:14px;margin-top:12px}
+.map{position:relative;height:330px;border:1px solid #c9c2b0;border-radius:16px;background:#e8dfc9;overflow:hidden}
+.tile{position:absolute;width:92px;height:64px;border:1px solid #aaa;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;text-align:center;font-size:12px;cursor:pointer}
+.town{left:calc(50% - 70px);top:calc(50% - 42px);width:140px;height:84px;background:#eee}
+.farm{left:7%;top:16%}.mine{right:7%;top:16%}.forest{left:9%;bottom:12%}.market{right:8%;bottom:12%}.barracks{left:42%;bottom:6%}
+.actions{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.resources{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.resource{padding:10px;border:1px solid #ddd;border-radius:12px;background:#fafafa;text-align:center;font-size:13px}
+.tabs{display:flex;gap:7px;overflow:auto;margin-top:12px}.tab{white-space:nowrap}.section{display:none}.section.active{display:block}
+.log{min-height:56px;padding:12px;border-radius:12px;background:#fafafa;border:1px solid #ddd;font-size:13px}
+.list{display:grid;gap:8px}.row{display:flex;justify-content:space-between;gap:10px;align-items:center;border-bottom:1px solid #eee;padding:8px 0}
+.badge{font-size:11px;padding:4px 7px;border-radius:999px;background:#eee}
+@media(min-width:700px){.stats{grid-template-columns:repeat(6,1fr)}.actions{grid-template-columns:repeat(3,1fr)}.resources{grid-template-columns:repeat(6,1fr)}}
+</style>
+</head>
+<body>
+<main id="game">
+<section class="top">
+<div><h1>🏰 Empire Builder</h1><div class="muted">V0.2 — إدارة مدينة، موارد، تجارة، جيش، دبلوماسية وأحداث.</div></div>
+<div><button id="saveBtn">💾 حفظ</button> <button id="loadBtn">📂 تحميل</button> <button id="nextBtn" class="primary">مرّر شهرًا ⏩</button></div>
+</section>
+
+<section class="stats">
+<div class="card"><div class="label">💰 الخزينة</div><div class="value" id="money"></div></div>
+<div class="card"><div class="label">👥 السكان</div><div class="value" id="pop"></div></div>
+<div class="card"><div class="label">😊 الرضا</div><div class="value" id="happy"></div></div>
+<div class="card"><div class="label">🪖 الجيش</div><div class="value" id="army"></div></div>
+<div class="card"><div class="label">📅 الشهر</div><div class="value" id="month"></div></div>
+<div class="card"><div class="label">⭐ السمعة</div><div class="value" id="rep"></div></div>
+</section>
+
+<section class="panel">
+<h2>🗺️ خريطة المملكة</h2>
+<div class="map">
+<div class="tile town" data-info="عاصمة المملكة ومركز الإدارة">🏛️<br>العاصمة</div>
+<div class="tile farm" data-info="ينتج الغذاء ويوفر وظائف">🌾<br>مزرعة</div>
+<div class="tile mine" data-info="ينتج الحديد والمعادن">⛏️<br>منجم</div>
+<div class="tile forest" data-info="مصدر للخشب">🌲<br>غابة</div>
+<div class="tile market" data-info="يزيد كفاءة التجارة">🛒<br>سوق</div>
+<div class="tile barracks" data-info="مركز تدريب الجيش">🛡️<br>ثكنة</div>
+</div>
+</section>
+
+<div class="tabs">
+<button class="tab primary" data-tab="city">🏙️ المدينة</button>
+<button class="tab" data-tab="trade">📦 التجارة</button>
+<button class="tab" data-tab="army">🪖 الجيش</button>
+<button class="tab" data-tab="diplomacy">🤝 الدبلوماسية</button>
+</div>
+
+<section id="city" class="panel section active">
+<h2>🏙️ إدارة المدينة</h2>
+<div class="resources">
+<div class="resource">🌾 غذاء<br><b id="food"></b></div>
+<div class="resource">⛏️ حديد<br><b id="iron"></b></div>
+<div class="resource">🪵 خشب<br><b id="wood"></b></div>
+<div class="resource">👷 وظائف<br><b id="jobs"></b></div>
+<div class="resource">🏠 مساكن<br><b id="houses"></b></div>
+<div class="resource">⚡ طاقة<br><b id="energy"></b></div>
+</div>
+<div class="actions" style="margin-top:12px">
+<button id="farmBtn">🌾 مزرعة — 12,000</button>
+<button id="houseBtn">🏠 مساكن — 15,000</button>
+<button id="roadBtn">🛣️ طريق — 10,000</button>
+<button id="marketBtn">🛒 سوق — 18,000</button>
+<button id="powerBtn">⚡ محطة طاقة — 25,000</button>
+<button id="taxBtn">💰 رفع الضريبة</button>
+<button id="investBtn">⚙️ استثمار — 20,000</button>
+</div>
+</section>
+
+<section id="trade" class="panel section">
+<h2>📦 التجارة</h2>
+<p class="muted">اشترِ أو بع الموارد. الأسعار تتغير مع مرور الوقت.</p>
+<div class="actions">
+<button id="buyFood">شراء 100 غذاء</button><button id="sellFood">بيع 100 غذاء</button>
+<button id="buyIron">شراء 50 حديد</button><button id="sellIron">بيع 50 حديد</button>
+<button id="buyWood">شراء 100 خشب</button><button id="sellWood">بيع 100 خشب</button>
+</div>
+</section>
+
+<section id="army" class="panel section">
+<h2>🪖 الجيش</h2>
+<p>القوة العسكرية تحمي المملكة، لكنها تحتاج إلى تكلفة صيانة.</p>
+<div class="actions">
+<button id="train">تدريب 25 جندي — 8,000</button>
+<button id="upgrade">تطوير الجيش — 20,000</button>
+</div>
+</section>
+
+<section id="diplomacy" class="panel section">
+<h2>🤝 الدبلوماسية</h2>
+<div class="list">
+<div class="row"><span>مملكة الشمال <span class="badge" id="northStatus">محايدة</span></span><button id="north">إرسال بعثة — 3,000</button></div>
+<div class="row"><span>جمهورية الشرق <span class="badge" id="eastStatus">محايدة</span></span><button id="east">اتفاق تجاري — 5,000</button></div>
+</div>
+</section>
+
+<section class="panel">
+<h2>📜 الأحداث</h2>
+<div id="log" class="log" aria-live="polite">ابدأ ببناء اقتصادك، ثم مرّر الأشهر لترى نتائج قراراتك.</div>
+</section>
+</main>
+
+<script>
+(() => {
+const KEY='empire-builder-v0.2-save';
+const state={money:100000,pop:1000,happy:70,army:50,month:1,rep:50,tax:1,
+food:500,iron:120,wood:400,jobs:600,houses:250,energy:100,farms:0,roads:0,markets:0,power:0,invest:0,
+north:'محايدة',east:'محايدة',prices:{food:30,iron:90,wood:20}};
+const $=id=>document.getElementById(id),fmt=n=>Math.round(n).toLocaleString('ar-SA');
+function render(){
+for(const [id,val] of Object.entries({money:state.money,pop:state.pop,happy:state.happy+'%',army:state.army,month:state.month,rep:state.rep+'%',food:state.food,iron:state.iron,wood:state.wood,jobs:state.jobs,houses:state.houses,energy:state.energy}))
+$(id).textContent=fmt(val);
+$('northStatus').textContent=state.north;$('eastStatus').textContent=state.east;
+}
+function log(x){$('log').textContent=x}
+function spend(cost,fn){if(state.money<cost){log('❌ الخزينة لا تكفي.');return false}state.money-=cost;fn();render();return true}
+function buy(item,qty){const cost=state.prices[item]*qty;if(spend(cost,()=>state[item]+=qty))log('📦 تم شراء '+qty+' من '+item+' مقابل '+fmt(cost)+'.')}
+function sell(item,qty){if(state[item]<qty){log('❌ لا تملك كمية كافية.');return}const rev=state.prices[item]*qty;state[item]-=qty;state.money+=rev;log('💰 تم بيع '+qty+' من '+item+' مقابل '+fmt(rev)+'.');render()}
+$('farmBtn').onclick=()=>spend(12000,()=>{state.farms++;state.food+=180;state.jobs+=35;state.pop+=35;state.happy=Math.min(100,state.happy+2);});
+$('houseBtn').onclick=()=>spend(15000,()=>{state.houses+=80;state.pop+=80;state.happy=Math.min(100,state.happy+3);});
+$('roadBtn').onclick=()=>spend(10000,()=>{state.roads++;state.rep=Math.min(100,state.rep+2);});
+$('marketBtn').onclick=()=>spend(18000,()=>{state.markets++;state.rep=Math.min(100,state.rep+3);});
+$('powerBtn').onclick=()=>spend(25000,()=>{state.power++;state.energy+=80;state.rep=Math.min(100,state.rep+2);});
+$('investBtn').onclick=()=>spend(20000,()=>{state.invest++;state.jobs+=50;state.rep=Math.min(100,state.rep+3);});
+$('taxBtn').onclick=()=>{state.tax++;state.happy=Math.max(20,state.happy-5);log('💰 رفعت الضريبة. الإيرادات سترتفع، لكن رضا السكان انخفض.');render()};
+$('train').onclick=()=>spend(8000,()=>{state.army+=25;state.iron=Math.max(0,state.iron-5);});
+$('upgrade').onclick=()=>spend(20000,()=>{state.army+=40;state.rep=Math.min(100,state.rep+2);});
+$('buyFood').onclick=()=>buy('food',100);$('sellFood').onclick=()=>sell('food',100);
+$('buyIron').onclick=()=>buy('iron',50);$('sellIron').onclick=()=>sell('iron',50);
+$('buyWood').onclick=()=>buy('wood',100);$('sellWood').onclick=()=>sell('wood',100);
+$('north').onclick=()=>spend(3000,()=>{state.north='علاقة ودية';state.rep=Math.min(100,state.rep+5);});
+$('east').onclick=()=>spend(5000,()=>{state.east='اتفاق تجاري';state.rep=Math.min(100,state.rep+7);});
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('primary'));document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));b.classList.add('primary');$(b.dataset.tab).classList.add('active')});
+document.querySelectorAll('.tile').forEach(t=>t.onclick=()=>log('📍 '+t.dataset.info));
+$('nextBtn').onclick=()=>{
+state.month++;
+const income=4500+state.pop*2.2+state.tax*1200+state.farms*900+state.roads*500+state.invest*1600+state.markets*700;
+const upkeep=state.pop*.7+state.houses*1.2+state.roads*120+state.army*35+state.power*250;
+const foodUse=state.pop*.22;state.food-=foodUse;
+if(state.food<0){state.happy=Math.max(0,state.happy-7);state.pop=Math.max(100,state.pop-Math.round(state.pop*.015));state.food=0}
+state.iron+=state.army*.03+state.power*2;state.wood+=state.farms*.2;
+state.money+=income-upkeep;
+const growth=Math.max(0,Math.round(state.pop*(.012+(state.houses>state.pop/4?.002:0)+(state.happy-50)/10000)));
+state.pop+=growth;
+if(state.happy<45)state.pop=Math.max(100,state.pop-Math.round(state.pop*.01));
+state.happy=Math.max(0,Math.min(100,state.happy+(state.houses?1:0)-(state.tax>2?1:0)));
+state.prices.food=Math.max(15,Math.round(state.prices.food*(.96+Math.random()*.08)));
+state.prices.iron=Math.max(50,Math.round(state.prices.iron*(.95+Math.random()*.1)));
+state.prices.wood=Math.max(10,Math.round(state.prices.wood*(.94+Math.random()*.12)));
+const events=['🌧️ موسم جيد: إنتاج الغذاء تحسن.','📈 ازدهار تجاري: الإيرادات أفضل هذا الشهر.','🛠️ عطل في البنية التحتية: الصيانة ارتفعت.','🎉 مهرجان المدينة: رضا السكان ارتفع.'];
+const ev=events[Math.floor(Math.random()*events.length)];
+if(ev.includes('الغذاء'))state.food+=80;if(ev.includes('ازدهار'))state.money+=2500;if(ev.includes('عطل'))state.money-=1800;if(ev.includes('مهرجان'))state.happy=Math.min(100,state.happy+4);
+log(`📅 الشهر ${state.month}: دخل ${fmt(income)}، صيانة ${fmt(upkeep)}. ${ev}`);render();
+};
+$('saveBtn').onclick=()=>{try{localStorage.setItem(KEY,JSON.stringify(state));log('💾 تم حفظ المملكة على هذا الجهاز.')}catch(e){log('تعذر الحفظ في هذا المتصفح.')}};
+$('loadBtn').onclick=()=>{try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if(!s){log('لا توجد لعبة محفوظة.');return}Object.assign(state,s);render();log('📂 تم تحميل آخر حفظ.')}catch(e){log('تعذر تحميل الحفظ.')}};
+render();
+})();
+</script>
+</body>
+</html>
