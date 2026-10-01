@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sentinel — Security Center</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#07111f;color:#e9f1fb;font-family:system-ui,Tahoma,Arial}
+.wrap{max-width:1050px;margin:auto;padding:22px}.nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+.logo{font-size:25px;font-weight:900}.logo span{color:#43d9a3}.status{background:#0d2b24;color:#6ff0bd;border:1px solid #1f795f;padding:7px 12px;border-radius:20px;font-size:12px}
+.hero{background:linear-gradient(135deg,#10283a,#0b1829);border:1px solid #1c3d55;border-radius:24px;padding:26px;margin-bottom:18px}
+.hero h1{margin:0 0 8px;font-size:30px}.hero p{color:#a9bacb;margin:0;line-height:1.8}
+.actions{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}.btn{border:0;border-radius:12px;padding:12px 18px;font-weight:900;cursor:pointer}.primary{background:#36c995;color:#052018}.secondary{background:#17324a;color:#dcecff}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}.card{background:#0d1b2b;border:1px solid #1c344b;border-radius:18px;padding:17px}.card small{color:#8fa4b8}.num{font-size:27px;font-weight:900;margin-top:7px}.green{color:#55e4ae}.orange{color:#ffc45b}.red{color:#ff6f7c}
+.main{display:grid;grid-template-columns:1.4fr .8fr;gap:15px}.panel{background:#0d1b2b;border:1px solid #1c344b;border-radius:18px;padding:18px}.panel h2{margin:0 0 15px;font-size:18px}
+.event{padding:12px 0;border-bottom:1px solid #193047;display:flex;gap:12px;align-items:center}.dot{width:10px;height:10px;border-radius:50%;background:#55e4ae}.dot.r{background:#ff6f7c}.dot.o{background:#ffc45b}.event b{display:block}.event small{color:#8298ad}
+.score{width:145px;height:145px;border-radius:50%;border:12px solid #21435a;display:flex;align-items:center;justify-content:center;margin:5px auto 16px;font-size:35px;font-weight:900;color:#55e4ae}
+.meter{height:9px;background:#14283a;border-radius:20px;overflow:hidden}.meter i{display:block;height:100%;width:82%;background:#36c995}
+.note{font-size:12px;color:#7f94a9;line-height:1.7;margin-top:15px}
+.modal{position:fixed;inset:0;background:#0009;display:none;align-items:center;justify-content:center;padding:20px}.modal.show{display:flex}.box{max-width:500px;width:100%;background:#0d1b2b;border:1px solid #31506a;border-radius:20px;padding:22px}.scan{font-size:20px;font-weight:900}.bar{height:12px;background:#172c40;border-radius:20px;margin:18px 0;overflow:hidden}.bar i{display:block;height:100%;width:0;background:#36c995;transition:width 1.2s}
+@media(max-width:750px){.grid{grid-template-columns:repeat(2,1fr)}.main{grid-template-columns:1fr}.hero h1{font-size:25px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="nav"><div class="logo">SENTINEL <span>●</span></div><div class="status">● النظام جاهز</div></div>
+  <section class="hero">
+    <h1>مركز الأمن الرقمي</h1>
+    <p>منصة دفاعية لمساعدة المستخدم أو الشركة على فهم مؤشرات الخطر الأمني، تنظيم الحوادث، وبناء تقارير قابلة للمراجعة.</p>
+    <div class="actions"><button class="btn primary" id="scan">🔍 بدء فحص تجريبي</button><button class="btn secondary" id="report">📄 إنشاء تقرير</button></div>
+  </section>
+  <div class="grid">
+    <div class="card"><small>الحالة الأمنية</small><div class="num green">جيدة</div></div>
+    <div class="card"><small>الأجهزة المسجلة</small><div class="num">4</div></div>
+    <div class="card"><small>تحتاج مراجعة</small><div class="num orange">2</div></div>
+    <div class="card"><small>تنبيهات عالية</small><div class="num red">1</div></div>
+  </div>
+  <div class="main">
+    <section class="panel"><h2>آخر الأحداث الأمنية</h2>
+      <div class="event"><i class="dot r"></i><div><b>مؤشر يحتاج تحقيقًا</b><small>جهاز Android • منذ 18 دقيقة</small></div></div>
+      <div class="event"><i class="dot o"></i><div><b>إعداد أمني يحتاج مراجعة</b><small>جهاز Windows • منذ ساعة</small></div></div>
+      <div class="event"><i class="dot"></i><div><b>فحص اكتمل بدون مؤشرات خطرة جديدة</b><small>جهاز iPhone • منذ 3 ساعات</small></div></div>
+      <div class="event"><i class="dot"></i><div><b>تم تحديث معلومات التهديدات</b><small>قاعدة المؤشرات • اليوم</small></div></div>
+    </section>
+    <section class="panel"><h2>مؤشر الحماية</h2><div class="score">82</div><div class="meter"><i></i></div><p class="note">هذا نموذج تجريبي فقط. لا يتم هنا الوصول إلى جهاز حقيقي أو فحصه. النسخة الإنتاجية تحتاج تطبيقًا/عاملًا محليًا وصلاحيات واضحة وموافقة المستخدم.</p></section>
+  </div>
+</div>
+<div class="modal" id="modal"><div class="box"><div class="scan" id="scanText">جارٍ تجهيز الفحص...</div><div class="bar"><i id="bar"></i></div><button class="btn secondary" id="done">إغلاق</button></div></div>
+<script>
+const modal=document.getElementById('modal'),bar=document.getElementById('bar'),txt=document.getElementById('scanText');
+document.getElementById('scan').onclick=()=>{modal.classList.add('show');bar.style.width='0%';txt.textContent='جارٍ تحليل مؤشرات الأمان...';setTimeout(()=>bar.style.width='35%',300);setTimeout(()=>bar.style.width='68%',900);setTimeout(()=>{bar.style.width='100%';txt.textContent='اكتمل الفحص التجريبي — تم العثور على مؤشر واحد يحتاج مراجعة.'},1700)};
+document.getElementById('done').onclick=()=>modal.classList.remove('show');
+document.getElementById('report').onclick=()=>alert('في النسخة القادمة: تقرير PDF منظم للحوادث والمؤشرات والأدلة.');
+</script>
+</body></html>
