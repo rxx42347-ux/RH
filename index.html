@@ -1,173 +1,84 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Empire Builder V2.0</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Empire Builder V3.0</title>
 <style>
-:root{
-  --bg:#07111d;--panel:#0d1b2a;--panel2:#12263a;--line:#28435e;
-  --text:#f4f7fb;--muted:#9db0c3;--gold:#f3c969;--green:#61d394;
-  --blue:#59a8ff;--red:#ef6a6a;--land:#173b2d;--land2:#24553a;
-}
-*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
-button{font:inherit;color:inherit;border:0;cursor:pointer} .app{min-height:100vh;display:flex;flex-direction:column}
-.top{background:linear-gradient(180deg,#102338,#091521);border-bottom:1px solid var(--line);padding:10px 12px;position:sticky;top:0;z-index:20}
-.brand{display:flex;align-items:center;justify-content:space-between;gap:8px}.brand h1{font-size:20px;margin:0}.sub{font-size:11px;color:var(--muted)}
-.resources{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:9px}
-.res{background:#102238;border:1px solid #29425c;border-radius:10px;padding:6px 4px;text-align:center;font-size:12px}.res b{display:block;color:var(--gold);font-size:13px}
-.main{flex:1;display:flex;flex-direction:column;min-height:0}.world-wrap{padding:10px;flex:1}
-.world{position:relative;min-height:430px;height:calc(100vh - 260px);max-height:650px;overflow:hidden;border:2px solid #31516a;border-radius:18px;background:
-radial-gradient(circle at 20% 20%,rgba(100,160,100,.18),transparent 24%),
-radial-gradient(circle at 80% 70%,rgba(70,130,100,.2),transparent 28%),
-linear-gradient(135deg,var(--land),#102d24 48%,#173f30);box-shadow:inset 0 0 50px rgba(0,0,0,.3)}
-.world:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:34px 34px;pointer-events:none}
-.river{position:absolute;width:150%;height:70px;background:#1b6b88;transform:rotate(-18deg);left:-20%;top:44%;opacity:.8;border-top:2px solid #4a9db8;border-bottom:2px solid #0c526c}
-.mountain{position:absolute;font-size:44px;opacity:.85;filter:drop-shadow(0 3px 2px #000);}.m1{left:7%;top:13%}.m2{left:42%;top:8%}.m3{right:7%;top:26%}.tree{position:absolute;font-size:32px;opacity:.9}.t1{left:13%;bottom:18%}.t2{left:27%;bottom:8%}.t3{right:13%;bottom:14%}.t4{right:30%;top:22%}
-.base{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);width:74%;height:62%;border:2px dashed rgba(243,201,105,.35);border-radius:18px;background:rgba(18,55,39,.28)}
-.building{position:absolute;width:62px;height:62px;border-radius:14px;background:linear-gradient(145deg,#284a68,#172d45);border:2px solid #47708e;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 5px 12px rgba(0,0,0,.35);transition:.15s;user-select:none}
-.building span{font-size:27px;line-height:27px}.building small{font-size:9px;color:#d8e4ef}.building.selected{border-color:var(--gold);box-shadow:0 0 0 3px rgba(243,201,105,.22)}
-.b1{left:42%;top:36%}.b2{left:17%;top:12%}.b3{right:13%;top:17%}.b4{left:12%;bottom:12%}.b5{right:12%;bottom:12%}.b6{left:43%;bottom:8%}
-.unit{position:absolute;font-size:25px;filter:drop-shadow(0 2px 2px #000);animation:float 2.4s ease-in-out infinite}.u1{left:8%;top:53%}.u2{right:8%;top:57%}.u3{right:40%;top:8%}
-@keyframes float{50%{transform:translateY(-4px)}} .map-label{position:absolute;background:rgba(3,12,20,.65);padding:5px 8px;border-radius:9px;font-size:10px;color:#e9f2f8}.capital{left:43%;top:49%}
-.notice{margin:8px 10px;padding:8px 10px;background:#102238;border:1px solid #29425c;border-radius:10px;font-size:12px;color:#cbd8e5}
-.actions{display:flex;gap:7px;overflow:auto;padding:8px 10px 10px}.actions button{min-width:92px;padding:10px 9px;border-radius:11px;background:#17314b;border:1px solid #355572}.actions button.primary{background:#7a5c16;border-color:#d4ad4f}
-.bottom{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;padding:7px 8px;background:#091521;border-top:1px solid var(--line);position:sticky;bottom:0;z-index:20}.bottom button{background:#11243a;border:1px solid #28445d;border-radius:10px;padding:8px 3px;font-size:11px}.bottom button.active{background:#1e3a55;border-color:#5b89ad}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:flex-end;z-index:50}.modal.open{display:flex}.sheet{width:100%;max-height:82vh;overflow:auto;background:#0b1927;border-top:1px solid #38556f;border-radius:20px 20px 0 0;padding:16px}.sheet h2{margin:0 0 8px;font-size:19px}.close{float:left;background:#263b50;border-radius:9px;padding:6px 10px}.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.card{background:#12263a;border:1px solid #2d4962;border-radius:12px;padding:10px}.card h3{margin:0 0 5px;font-size:14px}.card p{margin:4px 0;color:var(--muted);font-size:11px}.card button{margin-top:6px;width:100%;padding:8px;border-radius:8px;background:#234563}.bar{height:7px;background:#08131e;border-radius:8px;overflow:hidden;margin:6px 0}.bar i{display:block;height:100%;background:var(--green)}.log{font-size:12px;color:#c8d5e2;line-height:1.8}.toast{position:fixed;top:78px;left:50%;transform:translateX(-50%);background:#172b40;border:1px solid #45627b;padding:9px 14px;border-radius:11px;z-index:80;display:none;font-size:12px}
-@media(min-width:760px){.app{max-width:900px;margin:auto}.world-wrap{padding:16px}.resources{gap:8px}.building{width:72px;height:72px}.building span{font-size:32px}.bottom{border-radius:14px 14px 0 0}}
-</style>
-</head>
+:root{--bg:#071018;--panel:#0d1b28;--panel2:#132638;--line:#2b465d;--txt:#f5f7fa;--muted:#9fb1c1;--gold:#e8bd58;--green:#54c982;--red:#e56b6b;--blue:#62aef5}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}button{font:inherit;color:inherit}
+.app{min-height:100vh;display:flex;flex-direction:column}.top{position:sticky;top:0;z-index:20;background:#0a1622;border-bottom:1px solid var(--line);padding:8px 10px}
+.brand{display:flex;justify-content:space-between;align-items:center}.brand h1{font-size:19px;margin:0}.sub{font-size:10px;color:var(--muted)}
+.res{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;margin-top:7px}.res div{background:#102236;border:1px solid #29445c;border-radius:8px;text-align:center;padding:5px 2px;font-size:10px}.res b{display:block;color:var(--gold);font-size:11px}
+.world{position:relative;margin:9px;min-height:510px;height:calc(100vh - 285px);max-height:680px;overflow:hidden;border:2px solid #35536b;border-radius:17px;background:linear-gradient(145deg,#1b4834,#143525 55%,#1b4230);touch-action:none}
+.world:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:36px 36px}
+.water{position:absolute;left:-20%;top:52%;width:145%;height:95px;background:#17627d;transform:rotate(-12deg);opacity:.9;border-top:2px solid #4295ad;border-bottom:2px solid #0b455a}
+.hill{position:absolute;font-size:42px;opacity:.9}.h1{left:4%;top:10%}.h2{right:7%;top:9%}.h3{right:30%;bottom:4%}
+.tree{position:absolute;font-size:31px}.t1{left:8%;bottom:13%}.t2{left:31%;top:16%}.t3{right:11%;bottom:20%}.t4{right:27%;top:28%}
+.city{position:absolute;left:50%;top:50%;width:78%;height:72%;transform:translate(-50%,-50%);border:2px dashed rgba(232,189,88,.5);background:rgba(15,49,35,.3);border-radius:20px}
+.road{position:absolute;background:#4b5050;border:2px solid #656c6d;box-shadow:0 0 0 2px rgba(0,0,0,.12)}.r1{left:5%;right:5%;top:48%;height:20px}.r2{top:5%;bottom:5%;left:48%;width:20px}.r3{left:18%;right:18%;top:25%;height:14px;transform:rotate(20deg)}
+.bld{position:absolute;width:68px;height:62px;border-radius:12px;background:linear-gradient(145deg,#34536d,#172b3e);border:2px solid #557792;box-shadow:0 6px 12px #0006;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:3}.bld span{font-size:27px}.bld small{font-size:8px;color:#d7e2eb}.bld.sel{border-color:var(--gold);box-shadow:0 0 0 3px #e8bd5833,0 6px 12px #0006}.b1{left:41%;top:35%}.b2{left:10%;top:12%}.b3{right:9%;top:12%}.b4{left:9%;bottom:11%}.b5{right:9%;bottom:11%}.b6{left:41%;bottom:8%}.b7{left:22%;top:40%}.b8{right:22%;top:40%}
+.zone{position:absolute;inset:0;display:none;z-index:8;background:#0b1a26eF;padding:12px}.zone.open{display:block}.zone h2{margin:0 0 7px;font-size:18px}.zone p{color:var(--muted);font-size:12px}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;max-height:86%;overflow:auto}.card{background:#13283b;border:1px solid #2d4960;border-radius:11px;padding:9px}.card h3{margin:0 0 4px;font-size:13px}.card p{margin:3px 0;font-size:10px;color:var(--muted)}.card button,.action{width:100%;padding:8px;border-radius:8px;border:1px solid #3c607b;background:#1e405c;margin-top:5px}.close{background:#2b4154;border:0;border-radius:8px;padding:7px 11px;float:left}
+.info{margin:0 9px 7px;padding:8px 10px;background:#102338;border:1px solid #2c4860;border-radius:10px;font-size:11px}.actions{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;padding:0 9px 8px}.actions button{background:#16314a;border:1px solid #355773;border-radius:9px;padding:9px 3px;font-size:10px}.actions .gold{background:#705719;border-color:#b98f37}
+.bottom{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;padding:6px;background:#09131e;border-top:1px solid var(--line);position:sticky;bottom:0;z-index:20}.bottom button{background:#102338;border:1px solid #29445b;border-radius:9px;padding:7px 2px;font-size:10px}.bottom .active{border-color:#7195b1;background:#19364f}
+.toast{position:fixed;top:72px;left:50%;transform:translateX(-50%);background:#182d41;border:1px solid #46647c;border-radius:10px;padding:9px 13px;display:none;z-index:80;font-size:12px}
+.build-mode{outline:3px solid #e8bd58;outline-offset:-4px}.draghint{position:absolute;left:8px;bottom:7px;background:#07131dcc;border:1px solid #456276;border-radius:8px;padding:5px 7px;font-size:9px;z-index:10}
+@media(min-width:760px){.app{max-width:920px;margin:auto}.bld{width:76px;height:70px}.res div{font-size:11px}}
+</style></head>
 <body>
 <div class="app">
-<header class="top">
-  <div class="brand"><div><h1>🏰 Empire Builder <small style="color:var(--gold)">V2.0</small></h1><div class="sub">ابنِ مدينتك • طوّر جيشك • وسّع إمبراطوريتك</div></div><button id="saveBtn" title="حفظ">💾</button></div>
-  <div class="resources">
-    <div class="res">💰<b id="gold">12,500</b></div><div class="res">🌾<b id="food">3,200</b></div><div class="res">🪵<b id="wood">2,100</b></div><div class="res">⛏️<b id="iron">1,150</b></div><div class="res">💎<b id="gems">80</b></div>
-  </div>
-</header>
+<header class="top"><div class="brand"><div><h1>🏰 Empire Builder <span style="color:var(--gold)">V3.0</span></h1><div class="sub">ابنِ مدينة حقيقية • طوّرها • كوّن جيشك • وسّع مملكتك</div></div><button id="save">💾</button></div>
+<div class="res"><div>💰<b id="gold">18,000</b></div><div>🌾<b id="food">4,500</b></div><div>🪵<b id="wood">3,000</b></div><div>⛏️<b id="iron">1,700</b></div><div>💧<b id="water">2,400</b></div><div>💎<b id="gems">120</b></div></div></header>
 
-<main class="main">
-<section class="world-wrap">
-  <div class="world" id="world">
-    <div class="river"></div><div class="mountain m1">⛰️</div><div class="mountain m2">🏔️</div><div class="mountain m3">⛰️</div>
-    <div class="tree t1">🌲</div><div class="tree t2">🌳</div><div class="tree t3">🌲</div><div class="tree t4">🌳</div>
-    <div class="base" id="base">
-      <button class="building b1 selected" data-type="townhall"><span>🏰</span><small>مركز المدينة</small></button>
-      <button class="building b2" data-type="farm"><span>🌾</span><small>مزرعة</small></button>
-      <button class="building b3" data-type="barracks"><span>⚔️</span><small>ثكنة</small></button>
-      <button class="building b4" data-type="house"><span>🏠</span><small>مساكن</small></button>
-      <button class="building b5" data-type="market"><span>🏪</span><small>سوق</small></button>
-      <button class="building b6" data-type="factory"><span>🏭</span><small>مصنع</small></button>
-      <div class="map-label capital">العاصمة 👑</div>
-    </div>
-    <div class="unit u1">🛡️</div><div class="unit u2">🐎</div><div class="unit u3">🪖</div>
-  </div>
-  <div class="notice" id="notice">اختر مبنى على الخريطة لمعرفة وظيفته، أو اضغط «بناء» لإضافة مبنى جديد.</div>
-  <div class="actions">
-    <button class="primary" id="buildBtn">🏗️ بناء</button>
-    <button id="armyBtn">⚔️ الجيش</button>
-    <button id="worldBtn">🌍 العالم</button>
-    <button id="questBtn">🎯 المهام</button>
-  </div>
-</section>
-</main>
-
-<nav class="bottom">
-<button class="active" data-panel="city">🏰<br>مدينتي</button>
-<button data-panel="economy">💰<br>الاقتصاد</button>
-<button data-panel="army">🪖<br>الجيش</button>
-<button data-panel="diplomacy">🤝<br>الدبلوماسية</button>
-<button data-panel="research">🔬<br>التطوير</button>
-</nav>
+<section class="world" id="world">
+<div class="water"></div><div class="hill h1">⛰️</div><div class="hill h2">🏔️</div><div class="hill h3">⛰️</div><div class="tree t1">🌲</div><div class="tree t2">🌳</div><div class="tree t3">🌲</div><div class="tree t4">🌳</div>
+<div class="city" id="city">
+<div class="road r1"></div><div class="road r2"></div><div class="road r3"></div>
+<button class="bld b1 sel" data-id="townhall"><span>🏰</span><small>قصر المدينة L3</small></button>
+<button class="bld b2" data-id="farm"><span>🌾</span><small>مزرعة L2</small></button>
+<button class="bld b3" data-id="barracks"><span>⚔️</span><small>ثكنة L2</small></button>
+<button class="bld b4" data-id="house"><span>🏠</span><small>حي سكني L2</small></button>
+<button class="bld b5" data-id="market"><span>🏪</span><small>السوق L1</small></button>
+<button class="bld b6" data-id="factory"><span>🏭</span><small>مصنع L1</small></button>
+<button class="bld b7" data-id="hospital"><span>🏥</span><small>مستشفى L1</small></button>
+<button class="bld b8" data-id="power"><span>⚡</span><small>محطة طاقة L1</small></button>
 </div>
-
-<div class="modal" id="modal"><div class="sheet"><button class="close" id="close">✕</button><h2 id="modalTitle"></h2><div id="modalBody"></div></div></div>
-<div class="toast" id="toast"></div>
-
+<div class="draghint">اسحب الشاشة لتحريك العالم • اضغط المبنى</div>
+<div class="zone" id="zone"><button class="close" id="close">✕</button><h2 id="zt"></h2><div id="zb"></div></div>
+</section>
+<div class="info" id="info">🏰 قصر المدينة — قلب المملكة. المستوى 3 يحدد ما يمكنك بناؤه وتطويره.</div>
+<div class="actions"><button class="gold" id="build">🏗️ بناء</button><button id="upgrade">⬆️ ترقية</button><button id="army">⚔️ الجيش</button><button id="map">🌍 العالم</button></div>
+<nav class="bottom"><button class="active" data-open="city">🏰<br>المدينة</button><button data-open="economy">💰<br>الاقتصاد</button><button data-open="diplomacy">🤝<br>الدبلوماسية</button><button data-open="research">🔬<br>الأبحاث</button><button data-open="quests">🎯<br>المهام</button></nav>
+</div><div class="toast" id="toast"></div>
 <script>
-const state={
- gold:12500,food:3200,wood:2100,iron:1150,gems:80,
- pop:4200, happiness:76, power:340, level:3, day:1,
- buildings:{townhall:1,farm:2,barracks:1,house:4,market:1,factory:1},
- army:{infantry:420,cavalry:80,archers:120},
- research:{economy:1,military:1,agriculture:1},
- logs:["بدأت الإمبراطورية رحلة التوسع.","تم تأسيس العاصمة."]
+const S={gold:18000,food:4500,wood:3000,iron:1700,water:2400,gems:120,day:1,level:3,pop:5200,happy:78,buildTime:0,army:{inf:650,arch:180,cav:100},tech:{farm:1,econ:1,mil:1},b:{townhall:3,farm:2,barracks:2,house:4,market:1,factory:1,hospital:1,power:1}};
+const I={townhall:["🏰 قصر المدينة","قلب المملكة. يفتح مستويات ومبانٍ ومناطق جديدة."],farm:["🌾 مزرعة","إنتاج الغذاء للسكان والجيش."],barracks:["⚔️ ثكنة","تدريب القوات البرية."],house:["🏠 حي سكني","يرفع السعة السكانية."],market:["🏪 السوق","يزيد الدخل والتجارة."],factory:["🏭 المصنع","إنتاج صناعي واستهلاك موارد."],hospital:["🏥 المستشفى","يرفع الصحة والسعادة."],power:["⚡ محطة الطاقة","تزود المدينة بالطاقة اللازمة للتوسع."]};
+const $=x=>document.getElementById(x), fmt=n=>Math.floor(n).toLocaleString("ar-SA");
+function render(){["gold","food","wood","iron","water","gems"].forEach(k=>$(k).textContent=fmt(S[k]));}
+function toast(x){$("toast").textContent=x;$("toast").style.display="block";setTimeout(()=>$("toast").style.display="none",1500)}
+function open(title,body){$("zt").textContent=title;$("zb").innerHTML=body;$("zone").classList.add("open")}
+$("close").onclick=()=>{$("zone").classList.remove("open")};
+document.querySelectorAll(".bld").forEach(b=>b.onclick=()=>{document.querySelectorAll(".bld").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");let d=I[b.dataset.id];$("info").textContent=d[0]+" — "+d[1];});
+$("build").onclick=()=>open("🏗️ وضع البناء",`<p>اختر مبنى. بعد شرائه يظهر في مدينتك. لاحقًا يمكن إضافة وضع سحب وإفلات حر لكل مبنى.</p><div class="grid">${[
+["farm","🌾","مزرعة","700","400"],["house","🏠","حي سكني","900","500"],["market","🏪","سوق","1500","800"],["factory","🏭","مصنع","2200","1200"],["hospital","🏥","مستشفى","1800","900"],["power","⚡","محطة طاقة","2500","1400"],["barracks","⚔️","ثكنة","2000","1000"]].map(x=>`<div class="card"><h3>${x[1]} ${x[2]}</h3><p>💰${fmt(x[3])} • 🪵${fmt(x[4])}</p><button data-buy="${x[0]}" data-g="${x[3]}" data-w="${x[4]}">شراء وبناء</button></div>`).join("")}</div>`);
+document.querySelectorAll("[data-buy]").forEach(b=>b.onclick=()=>{let g=+b.dataset.g,w=+b.dataset.w;if(S.gold<g||S.wood<w)return toast("الموارد غير كافية");S.gold-=g;S.wood-=w;S.b[b.dataset.buy]=(S.b[b.dataset.buy]||0)+1;toast("بدأ بناء "+I[b.dataset.buy][0]+" 🏗️");render()});
 };
-const $=id=>document.getElementById(id);
-const fmt=n=>Math.floor(n).toLocaleString('ar-SA');
-function render(){
- ["gold","food","wood","iron","gems"].forEach(k=>$(k).textContent=fmt(state[k]));
-}
-function toast(msg){$("toast").textContent=msg;$("toast").style.display="block";setTimeout(()=>$("toast").style.display="none",1700)}
-function log(msg){state.logs.unshift(msg);state.logs=state.logs.slice(0,30)}
-function openModal(title,body){$("modalTitle").textContent=title;$("modalBody").innerHTML=body;$("modal").classList.add("open")}
-$("close").onclick=()=>$("modal").classList.remove("open");
-$("modal").addEventListener("click",e=>{if(e.target===$("modal"))$("modal").classList.remove("open")});
-
-const info={
- townhall:["🏰 مركز المدينة","قلب الإمبراطورية. رفع مستواه يفتح مباني ووحدات ومناطق جديدة."],
- farm:["🌾 مزرعة","تنتج الغذاء مع مرور الوقت."], barracks:["⚔️ ثكنة","تدريب القوات البرية."],
- house:["🏠 مساكن","تزيد الحد الأقصى للسكان."],market:["🏪 سوق","يساعد على التجارة ورفع الدخل."],
- factory:["🏭 مصنع","يحوّل الموارد إلى إنتاج صناعي."]
-};
-document.querySelectorAll(".building").forEach(b=>b.addEventListener("click",()=>{
- document.querySelectorAll(".building").forEach(x=>x.classList.remove("selected"));b.classList.add("selected");
- const d=info[b.dataset.type];$("notice").textContent=d[0]+" — "+d[1];
-}));
-
-$("buildBtn").onclick=()=>{
- openModal("🏗️ بناء مبنى",`<div class="cards">
- ${["farm|🌾|مزرعة|400|250","house|🏠|مساكن|500|350","market|🏪|سوق|900|500","factory|🏭|مصنع|1400|700","barracks|⚔️|ثكنة|1100|600"].map(s=>{
-  let [id,ic,n,c,w]=s.split("|");return `<div class="card"><h3>${ic} ${n}</h3><p>تكلفة: 💰${fmt(c)} + 🪵${fmt(w)}</p><button data-build="${id}" data-gold="${c}" data-wood="${w}">بناء</button></div>`
- }).join("")}</div>`);
- document.querySelectorAll("[data-build]").forEach(btn=>btn.onclick=()=>{
-  const c=+btn.dataset.gold,w=+btn.dataset.wood;
-  if(state.gold<c||state.wood<w){toast("الموارد غير كافية");return}
-  state.gold-=c;state.wood-=w;state.buildings[btn.dataset.build]=(state.buildings[btn.dataset.build]||0)+1;
-  log("تم بناء "+info[btn.dataset.build][0]);render();toast("تم البناء بنجاح 🏗️");
- });
-};
-$("armyBtn").onclick=()=>openModal("🪖 الجيش",`
-<div class="cards">
-<div class="card"><h3>🛡️ المشاة</h3><p>العدد: ${fmt(state.army.infantry)}</p><button data-train="infantry">تدريب 50 — 💰250 🌾100</button></div>
-<div class="card"><h3>🐎 الفرسان</h3><p>العدد: ${fmt(state.army.cavalry)}</p><button data-train="cavalry">تدريب 10 — 💰400 🌾120</button></div>
-<div class="card"><h3>🏹 الرماة</h3><p>العدد: ${fmt(state.army.archers)}</p><button data-train="archers">تدريب 25 — 💰220 🌾80</button></div>
-<div class="card"><h3>⚔️ القوة</h3><div class="bar"><i style="width:${Math.min(100,state.power/10)}%"></i></div><p>${fmt(state.power)} نقطة قوة</p></div>
-</div>`);
-document.querySelectorAll("[data-train]").forEach(btn=>btn.onclick=()=>{
- const type=btn.dataset.train,cost=type==="cavalry"?400:250,food=type==="cavalry"?120: type==="archers"?80:100,n=type==="cavalry"?10:type==="archers"?25:50;
- if(state.gold<cost||state.food<food){toast("الغذاء أو الذهب غير كافٍ");return}
- state.gold-=cost;state.food-=food;state.army[type]+=n;state.power+=Math.ceil(n*(type==="cavalry"?1.8:1));render();toast("تم تدريب القوات 🪖");
-});
-$("worldBtn").onclick=()=>openModal("🌍 العالم",`
-<div class="card"><h3>🗺️ خريطة العالم</h3><p>مناطق مجاورة قابلة للاستكشاف والتجارة والتوسع.</p></div>
-<div class="cards">
-<div class="card"><h3>🏜️ الشمال</h3><p>علاقة: 58/100</p><button onclick="toast('أرسلت بعثة استطلاع 🔭')">استكشاف</button></div>
-<div class="card"><h3>🌊 الساحل</h3><p>علاقة: 72/100</p><button onclick="toast('تم فتح طريق تجاري 🚢')">تجارة</button></div>
-<div class="card"><h3>⛰️ الشرق</h3><p>مناجم غنية بالحديد.</p><button onclick="toast('المنطقة تحتاج قوة عسكرية أكبر')">استطلاع</button></div>
-<div class="card"><h3>🏝️ الجزر</h3><p>منطقة بعيدة لم تُكتشف بعد.</p><button onclick="toast('تحتاج إلى ميناء متطور')">استكشاف</button></div>
-</div>`);
-$("questBtn").onclick=()=>openModal("🎯 المهام",`
-<div class="cards">
-<div class="card"><h3>🏗️ بداية التوسع</h3><p>ابنِ 3 مبانٍ جديدة.</p><button onclick="toast('المهمة قيد التقدم')">متابعة</button></div>
-<div class="card"><h3>🪖 جيش المملكة</h3><p>ارفع القوة إلى 500.</p><button onclick="toast('المكافأة: 💰1000')">استلام</button></div>
-<div class="card"><h3>🌾 الأمن الغذائي</h3><p>امتلك 3 مزارع.</p><button onclick="toast('المهمة قيد التقدم')">متابعة</button></div>
-</div>`);
-
-function panel(type){
- if(type==="city") openModal("🏰 مدينتي",`<div class="card"><h3>العاصمة — المستوى ${state.level}</h3><p>👥 السكان ${fmt(state.pop)} • 😊 السعادة ${state.happiness}%</p><p>🏠 المساكن: ${state.buildings.house} • 🌾 المزارع: ${state.buildings.farm}</p></div><div class="card"><h3>📜 السجل</h3><div class="log">${state.logs.slice(0,8).map(x=>"• "+x).join("<br>")}</div></div>`);
- if(type==="economy") openModal("💰 الاقتصاد",`<div class="cards"><div class="card"><h3>الدخل</h3><p>+💰 ${fmt(850)} / يوم</p></div><div class="card"><h3>الإنتاج</h3><p>🌾 +320 • 🪵 +180 • ⛏️ +90</p></div><div class="card"><h3>الضرائب</h3><p>المعدل الحالي: 10%</p><button onclick="state.happiness=Math.max(0,state.happiness-2);toast('تم رفع الضرائب');">رفع الضرائب</button></div></div>`);
- if(type==="army") $("armyBtn").click();
- if(type==="diplomacy") openModal("🤝 الدبلوماسية",`<div class="cards"><div class="card"><h3>🏳️ الشمال</h3><p>العلاقة: 58/100</p><button onclick="toast('تم إرسال عرض سلام')">عرض سلام</button></div><div class="card"><h3>🌊 الساحل</h3><p>العلاقة: 72/100</p><button onclick="toast('تم اقتراح اتفاق تجاري')">اتفاق تجاري</button></div></div>`);
- if(type==="research") openModal("🔬 التطوير",`<div class="cards">
- ${Object.entries(state.research).map(([k,v])=>`<div class="card"><h3>${k==="economy"?"💰 الاقتصاد":k==="military"?"⚔️ العسكرية":"🌾 الزراعة"}</h3><p>المستوى ${v}</p><button data-tech="${k}">تطوير — 💎20</button></div>`).join("")}</div>`);
- document.querySelectorAll("[data-tech]").forEach(b=>b.onclick=()=>{if(state.gems<20){toast("الجواهر غير كافية");return}state.gems-=20;state.research[b.dataset.tech]++;render();toast("تم تطوير التقنية 🔬")});
-}
-document.querySelectorAll(".bottom button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".bottom button").forEach(x=>x.classList.remove("active"));b.classList.add("active");panel(b.dataset.panel)});
-$("saveBtn").onclick=()=>{try{localStorage.setItem("empireV2",JSON.stringify(state));toast("تم حفظ الإمبراطورية 💾")}catch(e){toast("تعذر الحفظ")}};
-try{const s=JSON.parse(localStorage.getItem("empireV2"));if(s&&s.gold!=null)Object.assign(state,s)}catch(e){}
+$("upgrade").onclick=()=>{let cost=3500+S.level*1800;if(S.gold<cost||S.wood<1200)return toast("تحتاج 💰"+fmt(cost)+" و🪵1,200");S.gold-=cost;S.wood-=1200;S.level++;S.b.townhall=S.level;toast("ترقية قصر المدينة بدأت ⏱️");render()};
+$("army").onclick=()=>open("⚔️ الجيش",`<div class="grid"><div class="card"><h3>🛡️ المشاة</h3><p>${fmt(S.army.inf)} جندي</p><button data-tr="inf">تدريب 100 — 💰500 🌾180</button></div><div class="card"><h3>🏹 الرماة</h3><p>${fmt(S.army.arch)} رامٍ</p><button data-tr="arch">تدريب 50 — 💰450 🌾100</button></div><div class="card"><h3>🐎 الفرسان</h3><p>${fmt(S.army.cav)} فارس</p><button data-tr="cav">تدريب 20 — 💰900 🌾180</button></div><div class="card"><h3>🛡️ الدفاع</h3><p>قوة المملكة: ${fmt(S.army.inf+S.army.arch*1.2+S.army.cav*2)}</p></div></div>`);
+document.querySelectorAll("[data-tr]").forEach(b=>b.onclick=()=>{let t=b.dataset.tr,g=t==="cav"?900:500,f=t==="arch"?100:180,n=t==="cav"?20:t==="arch"?50:100;if(S.gold<g||S.food<f)return toast("الغذاء أو الذهب غير كافٍ");S.gold-=g;S.food-=f;S.army[t==="inf"?"inf":t==="arch"?"arch":"cav"]+=n;toast("تم التدريب 🪖");render()});
+$("map").onclick=()=>open("🌍 العالم",`<p>خريطة المملكة ستصبح مساحة استراتيجية للتوسع والاستكشاف.</p><div class="grid"><div class="card"><h3>🏜️ وادي الشمال</h3><p>موارد: 🪵⛏️ • منطقة غير مملوكة</p><button onclick="toast('أرسلت فرقة استطلاع 🔭')">استكشاف</button></div><div class="card"><h3>🌊 ساحل الشرق</h3><p>موقع مناسب لميناء وتجــارة.</p><button onclick="toast('تم تحديد الموقع للميناء 🚢')">تحديد</button></div><div class="card"><h3>⛰️ جبال الحديد</h3><p>مصدر ⛏️ غني لكنه يحتاج حماية.</p><button onclick="toast('تحتاج قوة عسكرية أكبر')">استطلاع</button></div><div class="card"><h3>🏳️ مملكة الجوار</h3><p>قوة مجهولة • علاقات 50/100</p><button onclick="toast('تم إرسال مبعوث 🤝')">مبعوث</button></div></div>`);
+function menu(t){if(t==="city")open("🏰 إدارة المدينة",`<div class="card"><h3>العاصمة — المستوى ${S.level}</h3><p>👥 السكان ${fmt(S.pop)} • 😊 السعادة ${S.happy}%</p><p>المباني: ${Object.values(S.b).reduce((a,b)=>a+b,0)}</p></div><div class="card"><h3>📊 حالة المدينة</h3><p>الغذاء آمن • الماء مستقر • الطاقة تتوسع</p></div>`);
+if(t==="economy")open("💰 اقتصاد المملكة",`<div class="grid"><div class="card"><h3>الدخل</h3><p>+${fmt(520+S.b.market*120)} 💰 / يوم</p></div><div class="card"><h3>الإنتاج</h3><p>+${fmt(S.b.farm*180)} 🌾 • +${fmt(S.b.factory*55)} 🪵</p></div><div class="card"><h3>الضرائب</h3><p>10% — توازن بين الدخل والسعادة.</p><button onclick="S.happy=Math.max(0,S.happy-3);toast('رفعت الضرائب');">رفع الضرائب</button></div></div>`);
+if(t==="diplomacy")open("🤝 الدبلوماسية",`<div class="grid"><div class="card"><h3>🏳️ مملكة الشمال</h3><p>علاقة 58/100</p><button onclick="toast('تم اقتراح اتفاق سلام')">سلام</button></div><div class="card"><h3>🌊 اتحاد الساحل</h3><p>علاقة 72/100</p><button onclick="toast('تم اقتراح اتفاق تجاري')">تجارة</button></div><div class="card"><h3>⛰️ قبائل الشرق</h3><p>علاقة 41/100</p><button onclick="toast('أرسلت هدية دبلوماسية')">تحسين العلاقة</button></div></div>`);
+if(t==="research")open("🔬 شجرة الأبحاث",`<div class="grid">${[["farm","🌾 الزراعة"],["econ","💰 الاقتصاد"],["mil","⚔️ العسكرية"]].map(x=>`<div class="card"><h3>${x[1]}</h3><p>المستوى ${S.tech[x[0]]}</p><button data-tech="${x[0]}">تطوير — 💎20</button></div>`).join("")}</div>`);
+if(t==="quests")open("🎯 المهام",`<div class="grid"><div class="card"><h3>🏗️ توسعة العاصمة</h3><p>ابنِ 3 مبانٍ جديدة.</p><button onclick="toast('المهمة قيد التقدم')">متابعة</button></div><div class="card"><h3>🪖 قوة المملكة</h3><p>وصل الجيش إلى 1,000 وحدة.</p><button onclick="toast('المكافأة لاحقًا')">متابعة</button></div><div class="card"><h3>🌍 أول توسع</h3><p>استكشف منطقة خارج العاصمة.</p><button onclick="toast('افتح خريطة العالم')">متابعة</button></div></div>`);}
+document.querySelectorAll("[data-tech]").forEach(b=>b.onclick=()=>{if(S.gems<20)return toast("الجواهر غير كافية");S.gems-=20;S.tech[b.dataset.tech]++;toast("تم تطوير البحث 🔬");render()})}
+document.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>{document.querySelectorAll("[data-open]").forEach(x=>x.classList.remove("active"));b.classList.add("active");menu(b.dataset.open)});
+$("save").onclick=()=>{localStorage.setItem("empireV3",JSON.stringify(S));toast("تم حفظ المملكة 💾")};
+try{let x=JSON.parse(localStorage.getItem("empireV3"));if(x)Object.assign(S,x)}catch(e){}
+let dragging=false,sx=0,sy=0,ox=0,oy=0;const world=$("world"),city=$("city");
+world.addEventListener("pointerdown",e=>{if(e.target.closest(".bld")||e.target.closest("button"))return;dragging=true;sx=e.clientX;sy=e.clientY;world.setPointerCapture(e.pointerId)});
+world.addEventListener("pointermove",e=>{if(!dragging)return;ox+=(e.clientX-sx);oy+=(e.clientY-sy);sx=e.clientX;sy=e.clientY;city.style.marginLeft=Math.max(-100,Math.min(100,ox/3))+"px";city.style.marginTop=Math.max(-80,Math.min(80,oy/3))+"px"});
+world.addEventListener("pointerup",()=>dragging=false);
 render();
-setInterval(()=>{state.day++;state.food+=Math.max(10,state.buildings.farm*35);state.wood+=state.buildings.factory*12;state.gold+=state.buildings.market*55;state.pop+=state.buildings.house*3;render()},7000);
-</script>
-</body>
-</html>
+setInterval(()=>{S.day++;S.food+=S.b.farm*40;S.gold+=S.b.market*70;S.wood+=S.b.factory*18;S.water+=S.b.power*20;S.pop+=S.b.house*4;render()},7000);
+</script></body></html>
