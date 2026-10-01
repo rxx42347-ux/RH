@@ -1,11 +1,12 @@
 # Empire Builder — Android V0.3
 
-نسخة Android-ready من اللعبة.
+نسخة Android-ready مرتبة للمشروع.
 
-## المحتويات
-- `www/` ملفات اللعبة.
-- `capacitor.config.ts` إعداد Capacitor.
-- `package.json` إعدادات البناء.
-- `docs/ANDROID_BUILD.md` خطوات تجهيز Android.
+## هيكل المشروع
+- `www/` — ملفات اللعبة.
+- `docs/ANDROID_BUILD.md` — خطوات تجهيز Android.
+- `capacitor.config.ts` — إعداد Capacitor.
+- `package.json` — إعدادات المشروع.
+- `CHANGELOG.md` — سجل التحديثات.
 
-هذه الملفات ليست APK جاهزًا؛ المشروع يحتاج بيئة Node.js وAndroid SDK/Android Studio لإنتاج APK أو AAB.
+هذه الملفات ليست APK جاهزًا؛ إنتاج APK/AAB يحتاج بيئة Node.js وAndroid SDK/Android Studio.
