@@ -1,54 +1,122 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sentinel — Security Center</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Sentinel — V0.2</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#07111f;color:#e9f1fb;font-family:system-ui,Tahoma,Arial}
-.wrap{max-width:1050px;margin:auto;padding:22px}.nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
-.logo{font-size:25px;font-weight:900}.logo span{color:#43d9a3}.status{background:#0d2b24;color:#6ff0bd;border:1px solid #1f795f;padding:7px 12px;border-radius:20px;font-size:12px}
-.hero{background:linear-gradient(135deg,#10283a,#0b1829);border:1px solid #1c3d55;border-radius:24px;padding:26px;margin-bottom:18px}
-.hero h1{margin:0 0 8px;font-size:30px}.hero p{color:#a9bacb;margin:0;line-height:1.8}
-.actions{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}.btn{border:0;border-radius:12px;padding:12px 18px;font-weight:900;cursor:pointer}.primary{background:#36c995;color:#052018}.secondary{background:#17324a;color:#dcecff}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}.card{background:#0d1b2b;border:1px solid #1c344b;border-radius:18px;padding:17px}.card small{color:#8fa4b8}.num{font-size:27px;font-weight:900;margin-top:7px}.green{color:#55e4ae}.orange{color:#ffc45b}.red{color:#ff6f7c}
-.main{display:grid;grid-template-columns:1.4fr .8fr;gap:15px}.panel{background:#0d1b2b;border:1px solid #1c344b;border-radius:18px;padding:18px}.panel h2{margin:0 0 15px;font-size:18px}
-.event{padding:12px 0;border-bottom:1px solid #193047;display:flex;gap:12px;align-items:center}.dot{width:10px;height:10px;border-radius:50%;background:#55e4ae}.dot.r{background:#ff6f7c}.dot.o{background:#ffc45b}.event b{display:block}.event small{color:#8298ad}
-.score{width:145px;height:145px;border-radius:50%;border:12px solid #21435a;display:flex;align-items:center;justify-content:center;margin:5px auto 16px;font-size:35px;font-weight:900;color:#55e4ae}
-.meter{height:9px;background:#14283a;border-radius:20px;overflow:hidden}.meter i{display:block;height:100%;width:82%;background:#36c995}
-.note{font-size:12px;color:#7f94a9;line-height:1.7;margin-top:15px}
-.modal{position:fixed;inset:0;background:#0009;display:none;align-items:center;justify-content:center;padding:20px}.modal.show{display:flex}.box{max-width:500px;width:100%;background:#0d1b2b;border:1px solid #31506a;border-radius:20px;padding:22px}.scan{font-size:20px;font-weight:900}.bar{height:12px;background:#172c40;border-radius:20px;margin:18px 0;overflow:hidden}.bar i{display:block;height:100%;width:0;background:#36c995;transition:width 1.2s}
-@media(max-width:750px){.grid{grid-template-columns:repeat(2,1fr)}.main{grid-template-columns:1fr}.hero h1{font-size:25px}}
+*{box-sizing:border-box}html,body{margin:0;background:#07111f;color:#e9f1fb;font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial}
+body{min-height:100vh}.wrap{max-width:1100px;margin:auto;padding:18px}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}
+.logo{font-size:25px;font-weight:900;letter-spacing:.5px}.logo i{font-style:normal;color:#43d9a3}
+.status{border:1px solid #1e6d58;background:#0b2923;color:#6ff0bd;padding:7px 12px;border-radius:20px;font-size:12px}
+.hero{background:linear-gradient(135deg,#10283a,#0b1829);border:1px solid #1d3d55;border-radius:24px;padding:22px;margin-bottom:14px}
+.hero h1{margin:0 0 7px;font-size:28px}.hero p{margin:0;color:#9eb2c5;line-height:1.8}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:17px}.btn{border:0;border-radius:12px;padding:12px 17px;font-weight:900;color:#fff;background:#17324a}.primary{background:#36c995;color:#062117}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}.card{background:#0c1a2a;border:1px solid #1b344b;border-radius:17px;padding:15px}.card small{color:#8ea4b9}.num{font-size:25px;font-weight:900;margin-top:5px}.good{color:#55e4ae}.warn{color:#ffc45b}.bad{color:#ff6f7c}
+.layout{display:grid;grid-template-columns:1.35fr .8fr;gap:12px}.panel{background:#0c1a2a;border:1px solid #1b344b;border-radius:18px;padding:16px}.panel h2{font-size:18px;margin:0 0 12px}
+.check{border-bottom:1px solid #193047;padding:12px 0;display:flex;gap:10px;align-items:flex-start}.check:last-child{border:0}.icon{width:27px;height:27px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#123b30;color:#62e8b8;font-weight:900;flex:none}.icon.w{background:#3c3015;color:#ffd064}.icon.n{background:#16283b;color:#8da9c0}
+.check b{display:block;font-size:14px}.check small{display:block;color:#8298ad;line-height:1.6;margin-top:3px}
+.score{width:142px;height:142px;border-radius:50%;border:11px solid #21445a;display:flex;align-items:center;justify-content:center;margin:7px auto 14px;font-size:34px;font-weight:900;color:#55e4ae}
+.bar{height:9px;background:#14283a;border-radius:20px;overflow:hidden}.bar i{display:block;height:100%;background:#36c995;width:0;transition:.5s}
+.kv{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid #193047;font-size:13px}.kv span{color:#8398ad}.kv b{font-weight:700;text-align:left;word-break:break-word}
+.note{font-size:12px;color:#7890a7;line-height:1.7;margin-top:12px}
+.modal{position:fixed;inset:0;background:#000a;display:none;align-items:center;justify-content:center;padding:18px;z-index:20}.modal.show{display:flex}.box{width:min(500px,100%);background:#0d1c2d;border:1px solid #31506a;border-radius:20px;padding:20px}.box h3{margin:0 0 8px}.progress{height:11px;background:#172c40;border-radius:20px;overflow:hidden;margin:17px 0}.progress i{display:block;height:100%;width:0;background:#36c995;transition:.25s}.close{border:0;background:#17324a;color:#fff;border-radius:11px;padding:10px 16px;font-weight:900}
+@media(max-width:760px){.grid{grid-template-columns:repeat(2,1fr)}.layout{grid-template-columns:1fr}.hero h1{font-size:24px}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="nav"><div class="logo">SENTINEL <span>●</span></div><div class="status">● النظام جاهز</div></div>
+  <div class="nav"><div class="logo">SENTINEL <i>●</i></div><div class="status" id="status">● جاهز للفحص</div></div>
   <section class="hero">
     <h1>مركز الأمن الرقمي</h1>
-    <p>منصة دفاعية لمساعدة المستخدم أو الشركة على فهم مؤشرات الخطر الأمني، تنظيم الحوادث، وبناء تقارير قابلة للمراجعة.</p>
-    <div class="actions"><button class="btn primary" id="scan">🔍 بدء فحص تجريبي</button><button class="btn secondary" id="report">📄 إنشاء تقرير</button></div>
+    <p>فحوصات دفاعية حقيقية تعمل داخل المتصفح باستخدام واجهات النظام التي يسمح بها المتصفح. لا يوجد اختراق، ولا قراءة سرية للملفات أو الرسائل أو الميكروفون.</p>
+    <div class="actions">
+      <button class="btn primary" id="scan">🔍 تشغيل الفحوصات</button>
+      <button class="btn" id="export">📄 تصدير التقرير</button>
+    </div>
   </section>
   <div class="grid">
-    <div class="card"><small>الحالة الأمنية</small><div class="num green">جيدة</div></div>
-    <div class="card"><small>الأجهزة المسجلة</small><div class="num">4</div></div>
-    <div class="card"><small>تحتاج مراجعة</small><div class="num orange">2</div></div>
-    <div class="card"><small>تنبيهات عالية</small><div class="num red">1</div></div>
+    <div class="card"><small>درجة الوضع الأمني</small><div class="num good" id="scoreTop">—</div></div>
+    <div class="card"><small>فحوصات ناجحة</small><div class="num good" id="passed">—</div></div>
+    <div class="card"><small>تحتاج مراجعة</small><div class="num warn" id="review">—</div></div>
+    <div class="card"><small>غير مدعومة</small><div class="num" id="unsupported">—</div></div>
   </div>
-  <div class="main">
-    <section class="panel"><h2>آخر الأحداث الأمنية</h2>
-      <div class="event"><i class="dot r"></i><div><b>مؤشر يحتاج تحقيقًا</b><small>جهاز Android • منذ 18 دقيقة</small></div></div>
-      <div class="event"><i class="dot o"></i><div><b>إعداد أمني يحتاج مراجعة</b><small>جهاز Windows • منذ ساعة</small></div></div>
-      <div class="event"><i class="dot"></i><div><b>فحص اكتمل بدون مؤشرات خطرة جديدة</b><small>جهاز iPhone • منذ 3 ساعات</small></div></div>
-      <div class="event"><i class="dot"></i><div><b>تم تحديث معلومات التهديدات</b><small>قاعدة المؤشرات • اليوم</small></div></div>
-    </section>
-    <section class="panel"><h2>مؤشر الحماية</h2><div class="score">82</div><div class="meter"><i></i></div><p class="note">هذا نموذج تجريبي فقط. لا يتم هنا الوصول إلى جهاز حقيقي أو فحصه. النسخة الإنتاجية تحتاج تطبيقًا/عاملًا محليًا وصلاحيات واضحة وموافقة المستخدم.</p></section>
+  <div class="layout">
+    <section class="panel"><h2>نتائج الفحص الحقيقي</h2><div id="checks"></div></section>
+    <aside class="panel">
+      <h2>المؤشر الأمني</h2><div class="score" id="score">—</div><div class="bar"><i id="scorebar"></i></div>
+      <h2 style="margin-top:18px">معلومات البيئة</h2>
+      <div id="env"></div>
+      <div class="note">النتائج تعكس ما يمكن للمتصفح التحقق منه فقط. عدم ظهور مشكلة لا يعني أن الجهاز خالٍ من برمجيات التجسس المتقدمة.</div>
+    </aside>
   </div>
 </div>
-<div class="modal" id="modal"><div class="box"><div class="scan" id="scanText">جارٍ تجهيز الفحص...</div><div class="bar"><i id="bar"></i></div><button class="btn secondary" id="done">إغلاق</button></div></div>
+
+<div class="modal" id="modal"><div class="box"><h3>🔎 تشغيل الفحوصات</h3><div id="scanText">بدء التحليل...</div><div class="progress"><i id="progress"></i></div><button class="close" id="close">إغلاق</button></div></div>
+
 <script>
-const modal=document.getElementById('modal'),bar=document.getElementById('bar'),txt=document.getElementById('scanText');
-document.getElementById('scan').onclick=()=>{modal.classList.add('show');bar.style.width='0%';txt.textContent='جارٍ تحليل مؤشرات الأمان...';setTimeout(()=>bar.style.width='35%',300);setTimeout(()=>bar.style.width='68%',900);setTimeout(()=>{bar.style.width='100%';txt.textContent='اكتمل الفحص التجريبي — تم العثور على مؤشر واحد يحتاج مراجعة.'},1700)};
-document.getElementById('done').onclick=()=>modal.classList.remove('show');
-document.getElementById('report').onclick=()=>alert('في النسخة القادمة: تقرير PDF منظم للحوادث والمؤشرات والأدلة.');
+const checksEl=document.getElementById('checks'), envEl=document.getElementById('env');
+const modal=document.getElementById('modal'), progress=document.getElementById('progress'), scanText=document.getElementById('scanText');
+const results=[];
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+function addResult(name,status,detail){
+ results.push({name,status,detail});
+ const cls=status==='pass'?'':' '+(status==='review'?'w':'n');
+ const symbol=status==='pass'?'✓':status==='review'?'!':'—';
+ checksEl.insertAdjacentHTML('beforeend',`<div class="check"><div class="icon${cls}">${symbol}</div><div><b>${name}</b><small>${detail}</small></div></div>`);
+}
+function setKV(k,v){envEl.insertAdjacentHTML('beforeend',`<div class="kv"><span>${k}</span><b>${String(v).replace(/[<>&"]/g,m=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[m]))}</b></div>`)}
+async function checkHeaders(){
+ try{
+   const r=await fetch(location.href,{method:'HEAD',cache:'no-store',credentials:'same-origin'});
+   const wanted=['content-security-policy','strict-transport-security','x-content-type-options','referrer-policy','permissions-policy','cross-origin-opener-policy','cross-origin-resource-policy'];
+   let present=0;
+   for(const h of wanted){if(r.headers.get(h))present++}
+   addResult('رؤوس أمان HTTP','pass',`تمت قراءة ${present} من ${wanted.length} من الرؤوس المتاحة من نفس الموقع.`);
+   return present;
+ }catch(e){addResult('رؤوس أمان HTTP','unsupported','تعذر قراءة استجابة الموقع من داخل المتصفح.');return 0}
+}
+async function run(){
+ results.length=0;checksEl.innerHTML='';envEl.innerHTML='';
+ modal.classList.add('show');progress.style.width='0%';scanText.textContent='بدء الفحص...';
+ const jobs=[
+  ['HTTPS / Secure Context',()=>{const ok=window.isSecureContext;addResult('الاتصال الآمن',ok?'pass':'review',ok?'الموقع يعمل داخل Secure Context.':'الموقع ليس Secure Context؛ استخدم HTTPS.');return ok}],
+  ['Crypto Subtle',()=>{const ok=!!crypto?.subtle;addResult('تشفير Web Crypto',ok?'pass':'unsupported',ok?'واجهة التشفير الأصلية متاحة.':'المتصفح لا يوفر Web Crypto هنا.');return ok}],
+  ['Storage',()=>{let ok=true;try{localStorage.setItem('__sentinel','1');localStorage.removeItem('__sentinel')}catch(e){ok=false}addResult('التخزين المحلي',ok?'pass':'review',ok?'localStorage يعمل.':'التخزين المحلي غير متاح أو محظور.');return ok}],
+  ['IndexedDB',()=>{const ok=!!window.indexedDB;addResult('IndexedDB',ok?'pass':'unsupported',ok?'قاعدة البيانات المحلية متاحة.':'IndexedDB غير متاحة.');return ok}],
+  ['Cookies',()=>{const ok=navigator.cookieEnabled;addResult('ملفات الارتباط',ok?'pass':'review',ok?'المتصفح يسمح بملفات الارتباط.':'ملفات الارتباط معطلة.');return ok}],
+  ['Notifications',()=>{const ok='Notification' in window;const p=ok?Notification.permission:'غير متاح';addResult('إذن الإشعارات',ok?(p==='denied'?'review':'pass'):'unsupported',ok?`الحالة الحالية: ${p}. لم يتم طلب الإذن.`:'واجهة الإشعارات غير مدعومة.');return ok}],
+  ['Camera permission state',async()=>{if(!navigator.permissions?.query){addResult('حالة إذن الكاميرا','unsupported','Permissions API غير متاحة.');return null}try{const x=await navigator.permissions.query({name:'camera'});addResult('حالة إذن الكاميرا',x.state==='denied'?'review':'pass',`الحالة: ${x.state}. لم يتم تشغيل الكاميرا.`);return true}catch(e){addResult('حالة إذن الكاميرا','unsupported','المتصفح لا يسمح بقراءة هذه الحالة.');return null}}],
+  ['Microphone permission state',async()=>{if(!navigator.permissions?.query){addResult('حالة إذن الميكروفون','unsupported','Permissions API غير متاحة.');return null}try{const x=await navigator.permissions.query({name:'microphone'});addResult('حالة إذن الميكروفون',x.state==='denied'?'review':'pass',`الحالة: ${x.state}. لم يتم تشغيل الميكروفون.`);return true}catch(e){addResult('حالة إذن الميكروفون','unsupported','المتصفح لا يسمح بقراءة هذه الحالة.');return null}}],
+  ['Geolocation permission state',async()=>{if(!navigator.permissions?.query){addResult('حالة إذن الموقع','unsupported','Permissions API غير متاحة.');return null}try{const x=await navigator.permissions.query({name:'geolocation'});addResult('حالة إذن الموقع',x.state==='granted'?'review':'pass',`الحالة: ${x.state}. لم يتم طلب موقعك.`);return true}catch(e){addResult('حالة إذن الموقع','unsupported','المتصفح لا يسمح بقراءة هذه الحالة.');return null}}],
+  ['WebAuthn',()=>{const ok=!!window.PublicKeyCredential;addResult('WebAuthn / Passkeys',ok?'pass':'unsupported',ok?'دعم مفاتيح المرور متاح.':'غير متاح في هذا المتصفح.');return ok}],
+  ['Service Worker',()=>{const ok='serviceWorker' in navigator;addResult('Service Worker',ok?'pass':'unsupported',ok?'واجهة Service Worker متاحة.':'غير متاحة.');return ok}],
+  ['Storage estimate',async()=>{if(!navigator.storage?.estimate){addResult('تقدير مساحة التخزين','unsupported','StorageManager غير متاح.');return null}const x=await navigator.storage.estimate();const used=Math.round((x.usage||0)/1048576);const quota=Math.round((x.quota||0)/1048576);addResult('مساحة التخزين', 'pass',`المستخدم محليًا تقريبًا: ${used} MB من ${quota} MB. لا يتم رفع البيانات.`);return true}],
+  ['Security headers',checkHeaders]
+ ];
+ for(let i=0;i<jobs.length;i++){scanText.textContent='فحص: '+jobs[i][0];try{await jobs[i][1]()}catch(e){addResult(jobs[i][0],'unsupported','تعذر تنفيذ الفحص بأمان.')}progress.style.width=Math.round(((i+1)/jobs.length)*100)+'%';await sleep(120)}
+ const p=results.filter(x=>x.status==='pass').length,r=results.filter(x=>x.status==='review').length,u=results.filter(x=>x.status==='unsupported').length;
+ const score=Math.max(0,Math.min(100,Math.round((p/(p+r+u||1))*100)-r*5));
+ document.getElementById('passed').textContent=p;document.getElementById('review').textContent=r;document.getElementById('unsupported').textContent=u;
+ document.getElementById('score').textContent=score;document.getElementById('scoreTop').textContent=score+'/100';document.getElementById('scorebar').style.width=score+'%';
+ document.getElementById('status').textContent='● اكتمل الفحص';
+ setKV('النظام',navigator.platform||'غير متاح');
+ setKV('المتصفح',navigator.userAgent);
+ setKV('لغة المتصفح',navigator.language);
+ setKV('اتصال الشبكة',navigator.onLine?'متصل':'غير متصل');
+ setKV('Secure Context',window.isSecureContext?'نعم':'لا');
+ scanText.textContent=`اكتمل الفحص: ${p} ناجح، ${r} يحتاج مراجعة، ${u} غير مدعوم.`;
+}
+document.getElementById('scan').onclick=run;
+document.getElementById('close').onclick=()=>modal.classList.remove('show');
+document.getElementById('export').onclick=()=>{
+ if(!results.length){alert('شغّل الفحص أولًا.');return}
+ const report={product:'Sentinel',version:'V0.2',createdAt:new Date().toISOString(),results,environment:{platform:navigator.platform,language:navigator.language,online:navigator.onLine,secureContext:window.isSecureContext}};
+ const blob=new Blob([JSON.stringify(report,null,2)],{type:'application/json'});
+ const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='sentinel-security-report.json';a.click();URL.revokeObjectURL(a.href);
+};
 </script>
-</body></html>
+</body>
+</html>
