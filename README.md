@@ -1,12 +1,14 @@
-# Empire Builder — Android V0.3
+# Empire Builder — Android V0.3 (Mobile Upload)
 
-نسخة Android-ready مرتبة للمشروع.
+نسخة Android-ready مبسطة للرفع من الجوال.
 
-## هيكل المشروع
-- `www/` — ملفات اللعبة.
-- `docs/ANDROID_BUILD.md` — خطوات تجهيز Android.
-- `capacitor.config.ts` — إعداد Capacitor.
+## الملفات
+- `index.html` — اللعبة.
+- `capacitor.config.ts` — إعداد Capacitor، ومضبوط على جذر المشروع.
 - `package.json` — إعدادات المشروع.
+- `README.md` — دليل المشروع.
 - `CHANGELOG.md` — سجل التحديثات.
 
-هذه الملفات ليست APK جاهزًا؛ إنتاج APK/AAB يحتاج بيئة Node.js وAndroid SDK/Android Studio.
+جميع الملفات في مجلد واحد لتسهيل تحديدها ورفعها من مدير الملفات على الهاتف.
+
+هذه ليست APK جاهزة؛ إنتاج APK/AAB يحتاج بيئة Node.js وAndroid SDK/Android Studio.
