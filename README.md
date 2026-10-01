@@ -1,28 +1,23 @@
-# Empire Builder — V5.0 Web 3D
+# Empire Builder V6.0 — 3D Kingdom
 
-هذه النسخة مخصصة للعمل من **الجوال + GitHub Pages** بدون Unity.
+V6.0 is a major gameplay/visual foundation for the mobile browser version.
 
-## الفكرة
-نقل المشروع من Dashboard ثنائي الأبعاد إلى نموذج لعبة 3D داخل المتصفح باستخدام Three.js.
+## What changed
+- Real 3D/isometric-style kingdom scene using Three.js.
+- Improved building silhouettes and distinct building types.
+- Piece-by-piece wall segments around the settlement.
+- Moving villagers.
+- Build mode with placement on the terrain.
+- Building upgrades with timers.
+- Resource production over time.
+- Selectable buildings and contextual upgrade panel.
+- Natural environment: trees, rocks and water.
+- Mobile camera pan/zoom controls.
+- World / Army / Shop entry points prepared for later systems.
+- Mobile-first HUD.
 
-Three.js مكتبة 3D تعمل داخل المتصفح، وGitHub Pages يستطيع نشر ملفات HTML/CSS/JavaScript مباشرة من المستودع.
+## Run
+This is a static web game. Upload the files to the root of the GitHub Pages repository and open the Pages site.
 
-## الموجود
-- عالم 3D بمنظور استراتيجي.
-- أرض واسعة وأشجار وصخور وماء.
-- مركز إمبراطورية ومبانٍ متعددة كمجسمات.
-- أسوار حول القاعدة.
-- سكان يتحركون.
-- تحريك الكاميرا.
-- تقريب/إبعاد.
-- الضغط على المباني.
-- ترقية المباني.
-- وضع مبنى جديد على الأرض.
-- موارد.
-- جيش ومتجر وعالم.
-- واجهة مناسبة للجوال.
-
-## ملاحظة
-هذه ليست بعد لعبة تجارية بمستوى Clash of Clans. إنها **أول أساس 3D قابل للعب** يمكن تطويره من الجوال.
-
-الخطوة التالية: نماذج 3D أجمل، شبكة بناء فعلية، مؤقتات، عمال بناء، مبانٍ متدرجة بصريًا، دفاعات، وحدات عسكرية، ثم المعارك والعالم الخارجي.
+## Important
+Three.js is loaded from jsDelivr, so the game currently needs an internet connection to load the 3D library.

@@ -2,238 +2,310 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Empire Builder V5.0</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Empire Builder V6.0</title>
 <style>
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#17231b;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#fff;touch-action:none}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#16251d;font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial;color:#fff}
 #game{position:fixed;inset:0}
-canvas{display:block}
-.hud{position:fixed;z-index:10;top:0;left:0;right:0;padding:8px;pointer-events:none;background:linear-gradient(#07121de8,#07121d55,transparent)}
-.top{display:flex;justify-content:space-between;align-items:center;gap:7px}
-.logo{font-weight:900;font-size:18px;text-shadow:0 2px 2px #000}.logo span{color:#f0c84b}
-.resources{display:flex;gap:5px;overflow:hidden;direction:rtl}
-.res{min-width:68px;padding:4px 7px;border-radius:8px;background:#172b3dcc;border:1px solid #53697b;text-align:center;font-size:10px;box-shadow:0 2px 4px #0005}
-.res b{display:block;color:#f5d66d;font-size:11px}
-.side{position:fixed;z-index:12;left:8px;top:76px;display:flex;flex-direction:column;gap:7px}
-.btn{border:2px solid #704d22;background:linear-gradient(#e8a73e,#a9601d);border-radius:11px;padding:9px 10px;color:#fff;font-weight:800;box-shadow:0 3px 0 #54351b,0 5px 8px #0006}
-.small{font-size:11px;padding:7px 9px}
-.bottom{position:fixed;z-index:12;bottom:8px;left:8px;right:8px;display:flex;justify-content:space-between;gap:7px;pointer-events:none}
-.bottom .btn{pointer-events:auto;min-width:78px}
-.panel{position:fixed;z-index:20;right:10px;left:10px;bottom:72px;max-height:58%;overflow:auto;background:#0c1926f2;border:2px solid #526a78;border-radius:15px;padding:12px;display:none;box-shadow:0 10px 30px #0009}
-.panel.open{display:block}.panel h2{margin:0 0 8px;font-size:18px}.close{float:left;background:#314554;border:0;border-radius:8px;color:white;padding:6px 9px}
-.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}.card{background:#173047;border:1px solid #496579;border-radius:10px;padding:9px}.card h3{margin:0 0 4px;font-size:12px}.card p{margin:3px 0;color:#c5d0d5;font-size:10px}.card button{margin-top:6px;width:100%;padding:7px;border-radius:8px;border:1px solid #5d87a0;background:#285779;color:#fff}
-#hint{position:fixed;z-index:11;left:50%;bottom:62px;transform:translateX(-50%);background:#091520d9;border:1px solid #587082;border-radius:10px;padding:7px 10px;font-size:10px;white-space:nowrap}
-#toast{position:fixed;z-index:50;top:74px;left:50%;transform:translateX(-50%);background:#182d3deF;border:1px solid #6c8290;border-radius:10px;padding:9px 12px;font-size:11px;display:none}
-#buildCursor{position:fixed;z-index:15;pointer-events:none;display:none;padding:5px 8px;border-radius:8px;background:#1e8a45dd;border:2px solid #d7ef9a;font-size:10px}
+canvas{display:block;width:100%;height:100%}
+.ui{position:fixed;inset:0;pointer-events:none}
+.top{position:absolute;top:10px;left:10px;right:10px;display:flex;gap:7px;align-items:center;justify-content:space-between}
+.logo{font-weight:900;font-size:18px;line-height:1.05;text-shadow:0 2px 3px #000;background:#17352bce;border:1px solid #668c74;border-radius:14px;padding:8px 10px;box-shadow:0 4px 12px #0007}
+.logo small{display:block;font-size:10px;color:#c9e6ce}
+.resources{display:flex;gap:6px;flex:1;justify-content:center}
+.res{min-width:72px;padding:7px 9px;text-align:center;border-radius:12px;background:#16352fcf;border:1px solid #6f9379;box-shadow:0 4px 12px #0007;font-weight:800;font-size:12px}
+.res b{display:block;font-size:15px;color:#ffe7a0}
+.res span{font-size:17px}
+.side{position:absolute;left:10px;top:105px;display:flex;flex-direction:column;gap:8px;pointer-events:auto}
+.tool{width:48px;height:48px;border:0;border-radius:14px;background:linear-gradient(#efaa3c,#a85b16);color:#fff;font-size:23px;font-weight:900;box-shadow:0 4px 0 #66340d,0 6px 12px #0007}
+.tool:active,.action:active{transform:translateY(2px);box-shadow:0 2px 0 #66340d}
+.bottom{position:absolute;left:8px;right:8px;bottom:max(9px,env(safe-area-inset-bottom));display:flex;gap:7px;justify-content:center;pointer-events:auto}
+.action{flex:1;max-width:120px;min-height:54px;border:0;border-radius:16px;background:linear-gradient(#efb247,#b96618);color:#fff;font-weight:900;font-size:13px;box-shadow:0 4px 0 #71390e,0 7px 14px #0007;text-shadow:0 1px 2px #5d2b08}
+.panel{position:absolute;right:10px;top:86px;width:min(300px,82vw);background:#11271fe8;border:1px solid #72907a;border-radius:18px;padding:13px;box-shadow:0 10px 30px #0009;pointer-events:auto;display:none;backdrop-filter:blur(8px)}
+.panel.show{display:block}
+.panel h3{margin:0 0 8px;font-size:18px}
+.panel p{margin:6px 0;color:#d9eadc;font-size:13px}
+.panel .row{display:flex;gap:7px;margin-top:9px}
+.panel button{flex:1;border:0;border-radius:11px;padding:10px;background:#d88b2c;color:#fff;font-weight:900}
+.badge{display:inline-block;background:#24563c;padding:3px 7px;border-radius:9px;font-size:11px}
+.toast{position:absolute;left:50%;bottom:78px;transform:translateX(-50%);background:#10261ed9;border:1px solid #70907a;border-radius:14px;padding:9px 14px;font-size:12px;max-width:90vw;text-align:center;opacity:0;transition:.2s}
+.toast.show{opacity:1}
+.help{position:absolute;left:50%;top:70px;transform:translateX(-50%);font-size:11px;background:#10261ebd;padding:7px 11px;border-radius:12px;color:#d9eadc}
+.buildbar{position:absolute;left:50%;bottom:72px;transform:translateX(-50%);display:none;gap:6px;background:#10261ee8;padding:7px;border-radius:15px;border:1px solid #67836d;pointer-events:auto;white-space:nowrap}
+.buildbar.show{display:flex}
+.buildbar button{border:0;border-radius:10px;background:#dc9130;color:#fff;font-weight:900;padding:8px 10px}
+#rotate{position:absolute;inset:0;background:#0e1a15e8;display:none;align-items:center;justify-content:center;text-align:center;padding:30px;z-index:5}
+@media (orientation:landscape) and (max-height:500px){#rotate{display:flex}}
 </style>
 </head>
 <body>
 <div id="game"></div>
-
-<div class="hud">
- <div class="top">
-  <div class="logo">🏰 Empire Builder <span>V5.0</span></div>
-  <div class="resources">
-   <div class="res">💎<b id="gems">120</b></div>
-   <div class="res">⛏️<b id="iron">1,700</b></div>
-   <div class="res">🪵<b id="wood">3,000</b></div>
-   <div class="res">🌾<b id="food">4,500</b></div>
-   <div class="res">💰<b id="gold">18,000</b></div>
+<div class="ui">
+  <div class="top">
+    <div class="logo">Empire Builder<small>V6.0 • 3D Kingdom</small></div>
+    <div class="resources">
+      <div class="res"><span>🪵</span><b id="wood">3200</b></div>
+      <div class="res"><span>🪨</span><b id="stone">1700</b></div>
+      <div class="res"><span>🪙</span><b id="gold">1200</b></div>
+      <div class="res"><span>💎</span><b id="gems">120</b></div>
+    </div>
   </div>
- </div>
+  <div class="help">اسحب الشاشة لتحريك الكاميرا • إصبعان للتكبير • اضغط على مبنى للتفاعل</div>
+  <div class="side">
+    <button class="tool" id="zoomIn">＋</button>
+    <button class="tool" id="zoomOut">−</button>
+    <button class="tool" id="home">⌂</button>
+  </div>
+  <div class="panel" id="panel">
+    <h3 id="ptitle">المبنى</h3>
+    <p id="pdesc"></p>
+    <p><span class="badge" id="plevel">المستوى 1</span> <span class="badge" id="pstatus">جاهز</span></p>
+    <div class="row"><button id="upgrade">ترقية</button><button id="close">إغلاق</button></div>
+  </div>
+  <div class="buildbar" id="buildbar">
+    <button data-type="house">🏠 منزل</button>
+    <button data-type="farm">🌾 مزرعة</button>
+    <button data-type="lumber">🪵 منشرة</button>
+    <button data-type="mine">⛏️ منجم</button>
+    <button data-type="tower">🏹 برج</button>
+  </div>
+  <div class="bottom">
+    <button class="action" id="world">🌍 العالم</button>
+    <button class="action" id="army">⚔️ الجيش</button>
+    <button class="action" id="build">🏗️ بناء</button>
+    <button class="action" id="shop">🛒 المتجر</button>
+  </div>
+  <div class="toast" id="toast"></div>
 </div>
-
-<div class="side">
- <button class="btn small" id="zoomIn">＋ 🔍</button>
- <button class="btn small" id="zoomOut">－ 🔍</button>
-</div>
-
-<div id="hint">اسحب الشاشة لتحريك الكاميرا • مرر إصبعين للتكبير • اضغط مبنى للتفاعل</div>
-<div id="buildCursor">🏗️ اختر مكانًا للبناء</div>
-
-<div class="bottom">
- <button class="btn" id="buildBtn">🏗️ بناء</button>
- <button class="btn" id="armyBtn">⚔️ الجيش</button>
- <button class="btn" id="shopBtn">🏪 المتجر</button>
- <button class="btn" id="worldBtn">🌍 العالم</button>
-</div>
-
-<div class="panel" id="panel">
- <button class="close" id="close">✕</button>
- <h2 id="panelTitle"></h2>
- <div id="panelBody"></div>
-</div>
-<div id="toast"></div>
+<div id="rotate">📱<br><br>لأفضل تجربة، استخدم الوضع العمودي.</div>
 
 <script type="importmap">
-{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.186.0/build/three.module.js"}}
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.186.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.186.0/examples/jsm/"}}
 </script>
 <script type="module">
-import * as THREE from "three";
+import * as THREE from 'three';
+import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 
-const state={gold:18000,food:4500,wood:3000,iron:1700,gems:120,pop:5200,level:3};
-const ui=id=>document.getElementById(id);
-const fmt=n=>Math.floor(n).toLocaleString("ar-SA");
-function render(){for(const k of ["gold","food","wood","iron","gems"])ui(k).textContent=fmt(state[k])}
-function toast(t){ui("toast").textContent=t;ui("toast").style.display="block";clearTimeout(window.__toast);window.__toast=setTimeout(()=>ui("toast").style.display="none",1500)}
-
+const app=document.getElementById('game');
 const scene=new THREE.Scene();
-scene.background=new THREE.Color(0x78a950);
-scene.fog=new THREE.Fog(0x78a950,45,95);
+scene.background=new THREE.Color(0x86b86a);
+scene.fog=new THREE.Fog(0x86b86a,55,120);
 
-const camera=new THREE.OrthographicCamera(-16,16,11,-11,.1,200);
-camera.position.set(0,25,22); camera.lookAt(0,0,0);
-const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:"high-performance"});
-renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));
+const camera=new THREE.OrthographicCamera(-18,18,24,-24,0.1,200);
+camera.position.set(24,28,24);
+camera.lookAt(0,0,0);
+
+const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});
+renderer.setPixelRatio(Math.min(devicePixelRatio,1.8));
 renderer.setSize(innerWidth,innerHeight);
 renderer.shadowMap.enabled=true;
 renderer.shadowMap.type=THREE.PCFSoftShadowMap;
-ui("game").appendChild(renderer.domElement);
+app.appendChild(renderer.domElement);
 
-const hemi=new THREE.HemisphereLight(0xbfe5ff,0x45633b,1.7); scene.add(hemi);
-const sun=new THREE.DirectionalLight(0xfff3ce,2.2); sun.position.set(-25,35,18);sun.castShadow=true;
-sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.left=-35;sun.shadow.camera.right=35;sun.shadow.camera.top=35;sun.shadow.camera.bottom=-35;scene.add(sun);
+const controls=new OrbitControls(camera,renderer.domElement);
+controls.enableRotate=false;
+controls.enablePan=true;
+controls.enableZoom=true;
+controls.screenSpacePanning=true;
+controls.minZoom=0.75; controls.maxZoom=2.1;
+controls.panSpeed=1.1; controls.zoomSpeed=0.8;
+controls.target.set(0,0,0);
+controls.maxPolarAngle=Math.PI/2.35;
+controls.minPolarAngle=Math.PI/2.35;
 
-const world=new THREE.Group();scene.add(world);
-const selectable=[];
-const groundMat=new THREE.MeshStandardMaterial({color:0x5b9a42,roughness:1});
-const ground=new THREE.Mesh(new THREE.PlaneGeometry(70,70),groundMat);
-ground.rotation.x=-Math.PI/2;ground.receiveShadow=true;world.add(ground);
+scene.add(new THREE.HemisphereLight(0xdff4ff,0x35522b,2.2));
+const sun=new THREE.DirectionalLight(0xfff0cf,3.0);
+sun.position.set(18,35,12); sun.castShadow=true;
+sun.shadow.mapSize.set(1024,1024);
+sun.shadow.camera.left=-45;sun.shadow.camera.right=45;sun.shadow.camera.top=45;sun.shadow.camera.bottom=-45;
+scene.add(sun);
+
+const ground=new THREE.Mesh(new THREE.PlaneGeometry(100,100),new THREE.MeshStandardMaterial({color:0x5d9846,roughness:1}));
+ground.rotation.x=-Math.PI/2;ground.receiveShadow=true;scene.add(ground);
+
+const city=new THREE.Group(); scene.add(city);
+const grid=new THREE.GridHelper(40,20,0x527d4e,0x6f9c63); grid.position.y=.02; grid.material.opacity=.24;grid.material.transparent=true;city.add(grid);
 
 function mat(c){return new THREE.MeshStandardMaterial({color:c,roughness:.82,metalness:.02})}
-function box(name,x,y,z,sx,sy,sz,c){
- const m=new THREE.Mesh(new THREE.BoxGeometry(sx,sy,sz),mat(c));m.name=name;m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;world.add(m);return m
-}
-function cyl(name,x,y,z,r,h,c){
- const m=new THREE.Mesh(new THREE.CylinderGeometry(r,r,h,12),mat(c));m.name=name;m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;world.add(m);return m
-}
-function tree(x,z,scale=1){
- const g=new THREE.Group();g.position.set(x,0,z);
- const trunk=new THREE.Mesh(new THREE.CylinderGeometry(.18*scale,.25*scale,.9*scale,8),mat(0x71451f));trunk.position.y=.45*scale;trunk.castShadow=true;g.add(trunk);
- const crown=new THREE.Mesh(new THREE.SphereGeometry(1.05*scale,12,10),mat(0x2f7426));crown.position.y=1.45*scale;crown.castShadow=true;g.add(crown);
- world.add(g)
-}
-function rock(x,z,s=1){
- const m=new THREE.Mesh(new THREE.DodecahedronGeometry(.8*s,0),mat(0x777d76));m.position.set(x,.45*s,z);m.rotation.y=Math.random()*3;m.castShadow=true;world.add(m)
-}
-for(let i=-30;i<=30;i+=4){tree(i,-28,.9);tree(i,28,.9)}
-for(let i=-24;i<=24;i+=4){tree(-29,i,.85);tree(29,i,.85)}
-[[ -12,-12],[13,-10],[-16,8],[17,12],[-8,18],[11,19]].forEach(p=>rock(p[0],p[1],.8+Math.random()*.5));
+const M={stone:mat(0x777d75),wall:mat(0x9b9d91),roof:mat(0x9b3e2e),wood:mat(0x6d3f26),gold:mat(0xc39b3e),blue:mat(0x275d74),dark:mat(0x2d3534),green:mat(0x467f3e),white:mat(0xe8dfc3),red:mat(0x9f342e)};
 
-const water=new THREE.Mesh(new THREE.PlaneGeometry(26,10),new THREE.MeshStandardMaterial({color:0x2789aa,roughness:.25,metalness:.05}));
-water.rotation.x=-Math.PI/2;water.position.set(0,.025,17);water.rotation.z=-.05;water.receiveShadow=true;world.add(water);
+const buildings=[];
+let selected=null, buildMode=false, ghost=null;
+const resources={wood:3200,stone:1700,gold:1200,gems:120};
+const costs={house:{wood:180,stone:80},farm:{wood:140,stone:50},lumber:{wood:240,stone:110},mine:{wood:280,stone:180},tower:{wood:300,stone:260}};
+const names={town:'قلعة العاصمة',house:'منزل',farm:'مزرعة',lumber:'منشرة الأخشاب',mine:'منجم الحجر',tower:'برج الحراسة',wall:'سور المملكة'};
+let nextId=1;
 
 function labelSprite(text){
- const c=document.createElement("canvas");c.width=256;c.height=64;const x=c.getContext("2d");
- x.fillStyle="rgba(8,18,25,.82)";x.roundRect(5,8,246,48,14);x.fill();
- x.fillStyle="white";x.font="bold 24px system-ui";x.textAlign="center";x.fillText(text,128,40);
- const tx=new THREE.CanvasTexture(c);const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:tx,transparent:true}));
- sp.scale.set(3.3,.82,1);sp.position.y=3.7;return sp
+ const c=document.createElement('canvas');c.width=256;c.height=64;
+ const x=c.getContext('2d');x.fillStyle='rgba(12,30,24,.82)';x.roundRect(8,8,240,48,14);x.fill();
+ x.fillStyle='#fff';x.font='bold 25px Arial';x.textAlign='center';x.fillText(text,128,40);
+ const t=new THREE.CanvasTexture(c);const s=new THREE.Sprite(new THREE.SpriteMaterial({map:t,transparent:true,depthWrite:false}));
+ s.scale.set(3.2,.8,1);return s;
 }
-
-function building(type,x,z,level=1){
- const g=new THREE.Group();g.position.set(x,0,z);g.userData={type,level};world.add(g);
- const colors={town:0xc79b49,house:0xd7c49b,farm:0x956036,barracks:0x7e4935,market:0x39779b,factory:0x596066,storage:0x6f4e35,defense:0x5b6266};
- const base=new THREE.Mesh(new THREE.BoxGeometry(type==="town"?4.4:2.8,type==="town"?3.2:2.0,type==="town"?4.4:2.8),mat(colors[type]||0xd0b98a));
- base.position.y=type==="town"?1.6:1;base.castShadow=true;base.receiveShadow=true;g.add(base);
- const roof=new THREE.Mesh(new THREE.ConeGeometry(type==="town"?3.1:2.05,type==="town"?1.8:1.05,4),mat(type==="town"?0x9e3c32:0x8d4a35));
- roof.rotation.y=Math.PI/4;roof.position.y=type==="town"?4.05:2.55;roof.castShadow=true;g.add(roof);
- const door=new THREE.Mesh(new THREE.BoxGeometry(.48,.9,.12),mat(0x4a2c20));door.position.set(0,.48, (type==="town"?2.22:1.42)+.07);g.add(door);
- if(type==="town"){for(const sx of [-1.35,1.35]){const tower=cyl("tower",sx,2.8,1.55,.55,2.5,0xe1d0a8);g.add(tower)}}
- const name={town:"مركز الإمبراطورية",house:"مسكن",farm:"مزرعة",barracks:"ثكنة",market:"سوق",factory:"مصنع",storage:"مخزن",defense:"برج دفاعي"}[type];
- g.add(labelSprite(name));
- selectable.push(g);
- return g
+function addRoof(group,w,d,y,c){
+ const roof=new THREE.Mesh(new THREE.ConeGeometry(Math.max(w,d)*.78,1.7,4),c||M.roof);
+ roof.rotation.y=Math.PI/4;roof.position.y=y;roof.castShadow=true;group.add(roof);
 }
-
-function wall(x,z,rot=0){
- const g=new THREE.Group();g.position.set(x,.55,z);g.rotation.y=rot;
- const m=new THREE.Mesh(new THREE.BoxGeometry(1.5,1.1,.45),mat(0x9b9c92));m.castShadow=true;m.receiveShadow=true;g.add(m);world.add(g);return g
-}
-function wallLine(a,b,n){
- for(let i=0;i<n;i++){let t=i/(n-1);wall(THREE.MathUtils.lerp(a[0],b[0],t),THREE.MathUtils.lerp(a[1],b[1],t),Math.abs(b[0]-a[0])>Math.abs(b[1]-a[1])?0:Math.PI/2)}
-}
-wallLine([-11,-11],[11,-11],15);wallLine([-11,11],[11,11],15);wallLine([-11,-11],[-11,11],15);wallLine([11,-11],[11,11],15);
-
-building("town",0,0,3);
-building("farm",-6,5);building("house",6,5);building("barracks",-6,-5);building("market",6,-5);
-building("factory",0,-7);building("storage",-8,0);building("defense",8,0);
-
-const villagers=[];
-function villager(x,z,phase){
- const g=new THREE.Group();const body=cyl("villager",x,.55,z,.25,.85,0xe0a15a);g.add(body);
- const head=new THREE.Mesh(new THREE.SphereGeometry(.28,10,8),mat(0xf0b879));head.position.y=1.05;g.add(head);
- g.userData={x,z,phase};world.add(g);villagers.push(g)
-}
-villager(2,3,0);villager(-2,-2,1.5);villager(4,-2,3);villager(-4,2,4.5);
-
-let targetZoom=26;
-function setZoom(z){targetZoom=THREE.MathUtils.clamp(z,17,38)}
-ui("zoomIn").onclick=()=>setZoom(targetZoom-3);ui("zoomOut").onclick=()=>setZoom(targetZoom+3);
-
-let selected=null, buildMode=false, buildType=null;
-function openPanel(title,body){ui("panelTitle").textContent=title;ui("panelBody").innerHTML=body;ui("panel").classList.add("open")}
-ui("close").onclick=()=>ui("panel").classList.remove("open");
-
-const ray=new THREE.Raycaster(),pointer=new THREE.Vector2();
-function pick(clientX,clientY){
- const r=renderer.domElement.getBoundingClientRect();
- pointer.x=((clientX-r.left)/r.width)*2-1;pointer.y=-((clientY-r.top)/r.height)*2+1;
- ray.setFromCamera(pointer,camera);
- const hits=ray.intersectObjects(selectable,true);
- if(!hits.length)return;
- let g=hits[0].object;while(g.parent&&g.parent!==world)g=g.parent;
- selected=g;openBuilding(g);
-}
-function openBuilding(g){
- const name=g.userData.type==="town"?"🏰 مركز الإمبراطورية":g.userData.type==="farm"?"🌾 المزرعة":g.userData.type==="house"?"🏠 المسكن":g.userData.type==="barracks"?"⚔️ الثكنة":g.userData.type==="market"?"🏪 السوق":g.userData.type==="factory"?"🏭 المصنع":g.userData.type==="storage"?"📦 المخزن":"🛡️ البرج الدفاعي";
- openPanel(name,`<div class="card"><h3>${name}</h3><p>المستوى: ${g.userData.level||1}</p><p>هذا مبنى حقيقي داخل عالم اللعبة، وليس بطاقة واجهة.</p><button id="upgrade">⬆️ ترقية — 💰 1,200</button></div>`);
- ui("upgrade").onclick=()=>{if(state.gold<1200)return toast("الذهب غير كافٍ");state.gold-=1200;g.userData.level++;g.scale.multiplyScalar(1.04);render();toast("تمت الترقية 🏗️")};
-}
-
-renderer.domElement.addEventListener("pointerup",e=>{if(!dragMoved)pick(e.clientX,e.clientY);dragMoved=false});
-let dragMoved=false,lastX=0,lastY=0,pinchStart=0;
-renderer.domElement.addEventListener("pointerdown",e=>{lastX=e.clientX;lastY=e.clientY;dragMoved=false});
-renderer.domElement.addEventListener("pointermove",e=>{
- if(e.buttons){const dx=e.clientX-lastX,dy=e.clientY-lastY;if(Math.abs(dx)+Math.abs(dy)>4)dragMoved=true;camera.position.x-=dx*.035;camera.position.z-=dy*.035;camera.position.x=THREE.MathUtils.clamp(camera.position.x,-13,13);camera.position.z=THREE.MathUtils.clamp(camera.position.z,8,32);lastX=e.clientX;lastY=e.clientY}
-});
-renderer.domElement.addEventListener("wheel",e=>{e.preventDefault();setZoom(targetZoom+e.deltaY*.02)},{passive:false});
-
-const touches=new Map();
-renderer.domElement.addEventListener("touchstart",e=>{for(const t of e.changedTouches)touches.set(t.identifier,{x:t.clientX,y:t.clientY});if(e.touches.length===2)pinchStart=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY)},{passive:false});
-renderer.domElement.addEventListener("touchmove",e=>{
- if(e.touches.length===2){const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);if(pinchStart){setZoom(targetZoom-(d-pinchStart)*.025);pinchStart=d}e.preventDefault()}
-},{passive:false});
-renderer.domElement.addEventListener("touchend",e=>{for(const t of e.changedTouches)touches.delete(t.identifier)});
-
-ui("buildBtn").onclick=()=>openPanel("🏗️ البناء",`<div class="cards">
-${[["house","🏠 مسكن",800],["farm","🌾 مزرعة",700],["market","🏪 سوق",1500],["barracks","⚔️ ثكنة",2000],["factory","🏭 مصنع",2300],["defense","🛡️ برج دفاعي",1800]].map(a=>`<div class="card"><h3>${a[1]}</h3><p>💰 ${fmt(a[2])}</p><button onclick="window.startBuild('${a[0]}',${a[2]})">وضع على الأرض</button></div>`).join("")}</div>`);
-window.startBuild=(type,cost)=>{if(state.gold<cost){toast("الذهب غير كافٍ");return}buildMode=true;buildType=type;ui("panel").classList.remove("open");ui("buildCursor").style.display="block";toast("اضغط على الأرض لوضع المبنى")};
-
-renderer.domElement.addEventListener("pointerup",e=>{
- if(!buildMode||dragMoved)return;
- const r=renderer.domElement.getBoundingClientRect();pointer.x=((e.clientX-r.left)/r.width)*2-1;pointer.y=-((e.clientY-r.top)/r.height)*2+1;
- ray.setFromCamera(pointer,camera);const hit=ray.intersectObject(ground)[0];if(hit){
-   const p=hit.point; if(Math.abs(p.x)>12||Math.abs(p.z)>12)return toast("خارج منطقتك");
-   const cost={house:800,farm:700,market:1500,barracks:2000,factory:2300,defense:1800}[buildType];
-   state.gold-=cost;building(buildType,Math.round(p.x),Math.round(p.z));buildMode=false;buildType=null;ui("buildCursor").style.display="none";render();toast("تم وضع المبنى 🏗️");
+function makeBuilding(type,x,z,level=1){
+ const g=new THREE.Group();g.userData={type,level,id:nextId++,busy:0};
+ const h=type==='town'?5.6:type==='tower'?4.0:type==='house'?2.7:2.4;
+ const w=type==='town'?5.2:type==='tower'?2.7:type==='house'?2.7:3.3;
+ const d=type==='town'?4.6:type==='tower'?2.7:type==='house'?2.7:3.0;
+ const body=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),type==='town'?M.wood:type==='tower'?M.stone:(type==='farm'?M.green:M.wood));
+ body.position.y=h/2;body.castShadow=true;body.receiveShadow=true;g.add(body);
+ if(type==='town'){addRoof(g,w,d,h+.7,M.red); const crown=new THREE.Mesh(new THREE.BoxGeometry(1.3,.9,1.3),M.gold);crown.position.y=h+1.8;crown.castShadow=true;g.add(crown)}
+ else if(type==='tower'){addRoof(g,w,d,h+.45,M.blue)}
+ else if(type==='house'){addRoof(g,w,d,h+.35,M.roof)}
+ else if(type==='farm'){
+   for(let i=-1;i<=1;i++){const row=new THREE.Mesh(new THREE.BoxGeometry(.35,.5,2.2),M.gold);row.position.set(i*.75,.35,0);g.add(row)}
  }
+ else {const roof=new THREE.Mesh(new THREE.CylinderGeometry(Math.max(w,d)*.55,Math.max(w,d)*.55,.55,8),type==='mine'?M.stone:M.blue);roof.position.y=h+.3;g.add(roof)}
+ const door=new THREE.Mesh(new THREE.BoxGeometry(.42,1,.08),M.dark);door.position.set(0,.5,d/2+.05);g.add(door);
+ const sign=labelSprite(names[type]);sign.position.y=h+1.8;g.add(sign);
+ g.position.set(x,0,z);city.add(g);buildings.push(g);
+ return g;
+}
+
+function makeWall(x,z,rot=0){
+ const g=new THREE.Group();g.userData={type:'wall',level:1,id:nextId++};
+ const b=new THREE.Mesh(new THREE.BoxGeometry(2.05,1.5,.42),M.wall);b.position.y=.75;b.castShadow=true;b.receiveShadow=true;g.add(b);
+ for(let i=-.7;i<=.7;i+=.7){const c=new THREE.Mesh(new THREE.BoxGeometry(.35,.35,.52),M.stone);c.position.set(i,1.62,0);g.add(c)}
+ g.rotation.y=rot;g.position.set(x,0,z);city.add(g);buildings.push(g);return g;
+}
+
+// Initial kingdom layout
+makeBuilding('town',0,0,2);
+makeBuilding('house',-5,-3); makeBuilding('house',5,-3); makeBuilding('house',-5,4); makeBuilding('house',5,4);
+makeBuilding('farm',-5,9); makeBuilding('lumber',5,9); makeBuilding('mine',-5,-9); makeBuilding('tower',5,-9);
+for(let x=-8;x<=8;x+=2) { makeWall(x,-12,0); makeWall(x,12,0); }
+for(let z=-10;z<=10;z+=2) { makeWall(-10,z,Math.PI/2); makeWall(10,z,Math.PI/2); }
+
+// Natural environment outside
+function tree(x,z,s=1){
+ const g=new THREE.Group();
+ const trunk=new THREE.Mesh(new THREE.CylinderGeometry(.22,.3,1.6,7),M.wood);trunk.position.y=.8;trunk.castShadow=true;g.add(trunk);
+ const crown=new THREE.Mesh(new THREE.DodecahedronGeometry(1.05*s,1),M.green);crown.position.y=2.0*s; crown.scale.y=1.2;crown.castShadow=true;g.add(crown);
+ g.position.set(x,0,z);scene.add(g);
+}
+function rock(x,z,s=1){
+ const r=new THREE.Mesh(new THREE.DodecahedronGeometry(.75*s,1),M.stone);r.position.set(x,.45*s,z);r.scale.y=.7;r.castShadow=true;scene.add(r);
+}
+for(let i=0;i<22;i++){const a=Math.random()*Math.PI*2,r=18+Math.random()*24;tree(Math.cos(a)*r,Math.sin(a)*r,.7+Math.random()*.5)}
+for(let i=0;i<15;i++){const a=Math.random()*Math.PI*2,r=16+Math.random()*26;rock(Math.cos(a)*r,Math.sin(a)*r,.6+Math.random()*.7)}
+
+const water=new THREE.Mesh(new THREE.PlaneGeometry(18,10),new THREE.MeshStandardMaterial({color:0x2d8fab,roughness:.25,metalness:.1,transparent:true,opacity:.9}));
+water.rotation.x=-Math.PI/2;water.position.set(-23,.02,18);scene.add(water);
+
+// Villagers
+const villagers=[];
+function villager(x,z){
+ const g=new THREE.Group();
+ const body=new THREE.Mesh(new THREE.CapsuleGeometry(.25,.65,4,8),M.blue);body.position.y=.6;body.castShadow=true;g.add(body);
+ const head=new THREE.Mesh(new THREE.SphereGeometry(.25,10,8),M.white);head.position.y=1.15;head.castShadow=true;g.add(head);
+ g.position.set(x,0,z);g.userData={t:Math.random()*10,speed:.3+Math.random()*.25,origin:new THREE.Vector3(x,0,z)};
+ city.add(g);villagers.push(g);
+}
+for(let i=0;i<9;i++)villager((Math.random()-.5)*14,(Math.random()-.5)*14);
+
+function updateRes(){
+ for(const k of ['wood','stone','gold','gems']) document.getElementById(k).textContent=Math.floor(resources[k]).toLocaleString('ar-SA');
+}
+updateRes();
+
+function toast(t){const e=document.getElementById('toast');e.textContent=t;e.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('show'),2200)}
+function openPanel(b){
+ selected=b;const d=b.userData;document.getElementById('panel').classList.add('show');
+ document.getElementById('ptitle').textContent=names[d.type]||'مبنى';
+ document.getElementById('pdesc').textContent=d.type==='town'?'مركز مملكتك. ارفع مستواه لفتح مبانٍ ووحدات جديدة.':`هذا المبنى يساهم في تطوير مملكتك.`;
+ document.getElementById('plevel').textContent='المستوى '+d.level;
+ document.getElementById('pstatus').textContent=d.busy>0?'قيد التطوير':'جاهز';
+}
+document.getElementById('close').onclick=()=>document.getElementById('panel').classList.remove('show');
+
+document.getElementById('upgrade').onclick=()=>{
+ if(!selected)return;
+ const cost=selected.userData.level*140;
+ if(resources.gold<cost){toast('تحتاج '+cost+' 🪙 للترقية');return}
+ resources.gold-=cost;selected.userData.busy=6;selected.userData.level++;
+ toast('بدأ تطوير '+names[selected.userData.type]+' ⏳');
+ updateRes();openPanel(selected);
+};
+
+document.getElementById('build').onclick=()=>{
+ buildMode=!buildMode;document.getElementById('buildbar').classList.toggle('show',buildMode);
+ toast(buildMode?'اختر مبنى ثم اضغط على الأرض لوضعه':'تم إغلاق وضع البناء');
+};
+document.querySelectorAll('#buildbar button').forEach(b=>b.onclick=()=>{
+ const type=b.dataset.type; if(!ghost) ghost=makeBuilding(type,0,0); ghost.traverse(o=>{if(o.isMesh)o.material=o.material.clone(),o.material.transparent=true,o.material.opacity=.42}); ghost.userData.ghost=true;
+ toast('اضغط على مكان مناسب في الأرض');
 });
 
-ui("armyBtn").onclick=()=>openPanel("⚔️ الجيش",`<div class="cards"><div class="card"><h3>🛡️ المشاة</h3><p>650 وحدة</p><button onclick="toast('تدريب 100 جندي')">تدريب</button></div><div class="card"><h3>🏹 الرماة</h3><p>180 وحدة</p><button onclick="toast('تدريب 50 رامي')">تدريب</button></div><div class="card"><h3>🐎 الفرسان</h3><p>100 وحدة</p><button onclick="toast('تدريب 20 فارس')">تدريب</button></div></div>`);
-ui("shopBtn").onclick=()=>openPanel("🏪 المتجر",`<div class="cards"><div class="card"><h3>💎 جواهر</h3><p>+100 💎</p><button onclick="state.gems+=100;render();toast('تمت إضافة الجواهر')">استلام</button></div><div class="card"><h3>🌾 غذاء</h3><p>+1,000 🌾</p><button onclick="state.food+=1000;render();toast('تمت إضافة الغذاء')">شراء</button></div></div>`);
-ui("worldBtn").onclick=()=>openPanel("🌍 العالم",`<div class="cards"><div class="card"><h3>🏜️ الأراضي الشمالية</h3><p>مناجم وخشب.</p><button onclick="toast('استكشاف المنطقة 🔭')">استكشاف</button></div><div class="card"><h3>🌊 الساحل</h3><p>موقع مناسب لميناء.</p><button onclick="toast('استكشاف الساحل 🔭')">استكشاف</button></div></div>`);
-
-setInterval(()=>{state.food+=25;state.gold+=35;render()},8000);
-
-function animate(t){
- requestAnimationFrame(animate);
- camera.zoom += (32/targetZoom-camera.zoom)*.08;camera.updateProjectionMatrix();
- villagers.forEach((v,i)=>{v.position.x=v.userData.x+Math.sin(t*.00035+v.userData.phase)*.8;v.position.z=v.userData.z+Math.cos(t*.0003+v.userData.phase)*.8});
- renderer.render(scene,camera)
+function moveGhost(pt){
+ if(!ghost)return;ghost.position.x=Math.round(pt.x/2)*2;ghost.position.z=Math.round(pt.z/2)*2;
 }
-render();animate(0);
-addEventListener("resize",()=>{camera.left=-16*innerWidth/innerHeight;camera.right=16*innerWidth/innerHeight;camera.top=11;camera.bottom=-11;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
+function pointerWorld(e){
+ const rect=renderer.domElement.getBoundingClientRect();
+ const x=((e.clientX-rect.left)/rect.width)*2-1,y=-((e.clientY-rect.top)/rect.height)*2+1;
+ const ray=new THREE.Raycaster();ray.setFromCamera(new THREE.Vector2(x,y),camera);
+ const hit=ray.intersectObject(ground)[0];return hit?hit.point:null;
+}
+renderer.domElement.addEventListener('pointermove',e=>{if(buildMode&&ghost)moveGhost(pointerWorld(e)||new THREE.Vector3())});
+renderer.domElement.addEventListener('pointerdown',e=>{
+ if(e.pointerType==='touch'&&e.isPrimary===false)return;
+ if(buildMode&&ghost){
+   const p=pointerWorld(e); if(!p)return;
+   const type=ghost.userData.type,c=costs[type];
+   if(resources.wood<c.wood||resources.stone<c.stone){toast('الموارد غير كافية');return}
+   resources.wood-=c.wood;resources.stone-=c.stone;
+   const gx=ghost.position.x,gz=ghost.position.z;
+   city.remove(ghost);buildings.splice(buildings.indexOf(ghost),1);
+   ghost=null;
+   const b=makeBuilding(type,gx,gz);b.userData.busy=5;
+   toast('تم وضع المبنى وبدأ البناء 🏗️');
+   updateRes();return;
+ }
+ const rect=renderer.domElement.getBoundingClientRect();
+ const mouse=new THREE.Vector2(((e.clientX-rect.left)/rect.width)*2-1,-((e.clientY-rect.top)/rect.height)*2+1);
+ const ray=new THREE.Raycaster();ray.setFromCamera(mouse,camera);
+ const hits=ray.intersectObjects(buildings.flatMap(g=>g.children),true);
+ if(hits.length){let o=hits[0].object;while(o.parent&&o.parent!==city)o=o.parent;if(o.userData?.type)openPanel(o)}
+});
+
+document.getElementById('zoomIn').onclick=()=>camera.zoom=Math.min(2.1,camera.zoom+.2);
+document.getElementById('zoomOut').onclick=()=>camera.zoom=Math.max(.75,camera.zoom-.2);
+document.getElementById('home').onclick=()=>{camera.zoom=1.05;controls.target.set(0,0,0);camera.position.set(24,28,24);camera.lookAt(0,0,0);toast('تمت إعادة الكاميرا')};
+
+document.getElementById('shop').onclick=()=>toast('المتجر قادم: أشكال، موارد، وتسريع البناء');
+document.getElementById('army').onclick=()=>toast('الجيش قادم: تدريب وحدات وفتح معارك');
+document.getElementById('world').onclick=()=>toast('العالم قادم: مدن وممالك وأراضٍ قابلة للتوسع');
+
+let last=performance.now();
+function animate(now){
+ requestAnimationFrame(animate);
+ const dt=Math.min(.05,(now-last)/1000);last=now;
+ for(const b of buildings){if(b.userData.busy>0){b.userData.busy-=dt;if(b.userData.busy<=0){b.userData.busy=0;toast(names[b.userData.type]+' اكتمل تطويره ✅')}}}
+ for(const v of villagers){
+   v.userData.t+=dt*v.userData.speed;
+   const o=v.userData.origin;
+   v.position.x=o.x+Math.sin(v.userData.t)*2.3;
+   v.position.z=o.z+Math.cos(v.userData.t*.8)*1.7;
+   v.rotation.y=Math.sin(v.userData.t)*.7;
+ }
+ // production
+ resources.wood+=dt*1.15; resources.stone+=dt*.65; resources.gold+=dt*.35;
+ updateRes();
+ if(ghost){ghost.rotation.y=Math.sin(now*.001)*.02}
+ renderer.render(scene,camera);
+}
+animate(performance.now());
+
+addEventListener('resize',()=>{
+ renderer.setSize(innerWidth,innerHeight);
+ const a=innerWidth/innerHeight, h=24;
+ camera.left=-h*a/1.5;camera.right=h*a/1.5;camera.top=h;camera.bottom=-h;camera.updateProjectionMatrix();
+});
 </script>
 </body>
 </html>

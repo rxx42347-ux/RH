@@ -1,20 +1,29 @@
 # CHANGELOG — Empire Builder
 
-## V5.0 — Web 3D Mobile Foundation
-- إلغاء مسار Unity بسبب اعتماد المشروع الحالي على الجوال.
-- الانتقال إلى Three.js/WebGL لتشغيل لعبة 3D مباشرة في المتصفح.
-- إضافة عالم ثلاثي الأبعاد.
-- إضافة أرض طبيعية وأشجار وصخور وماء.
-- إضافة مركز الإمبراطورية ومبانٍ مختلفة كمجسمات.
-- إضافة أسوار.
-- إضافة سكان متحركين.
-- إضافة كاميرا استراتيجية.
-- إضافة تحريك وتقريب للجوال.
-- إضافة اختيار المباني.
-- إضافة ترقية المباني.
-- إضافة وضع مبنى جديد على الأرض.
-- إضافة الموارد والجيش والمتجر والعالم.
-- تصميم HUD مناسب لشاشة الهاتف.
+## V6.0 — 3D Kingdom Gameplay Foundation
+### Added
+- New 3D kingdom scene.
+- Distinct town center, houses, farms, lumber mill, mine and guard tower.
+- Individual wall segments.
+- Moving villagers.
+- Building placement mode.
+- Upgrade timers.
+- Resource generation.
+- Building selection and contextual panel.
+- Natural environment with trees, rocks and water.
+- Improved mobile camera and controls.
+- Mobile HUD and touch-friendly controls.
 
-## V4.0
-- كانت آخر نسخة HTML قبل الانتقال إلى نموذج 3D الحقيقي.
+### Changed
+- Replaced the previous dashboard-like presentation with a game-world-first presentation.
+- Improved lighting, shadows, fog and depth.
+- Added a clearer strategic/isometric camera.
+
+### Next major systems
+- More detailed low-poly building models.
+- Real building footprints and collision/grid validation.
+- Builder units and construction animations.
+- Army training and combat.
+- Defensive structures and attacks.
+- World map and territorial expansion.
+- Saving/loading the kingdom.
