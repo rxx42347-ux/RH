@@ -1,6 +1,0 @@
-name = "digital-trust-api"
-main = "worker.js"
-compatibility_date = "2026-10-01"
-
-[vars]
-ALLOWED_ORIGIN = "https://YOUR-GITHUB-USERNAME.github.io"
