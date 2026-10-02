@@ -1,20 +1,14 @@
-# Digital Trust Network V0.1 — Real Web Risk Core
+# ريو — Messaging MVP V0.1
 
-هذه نسخة حقيقية وليست محاكاة.
+الفكرة: تطبيق مراسلة تتحول فيه المحادثة إلى مساحة تفاعلية.
 
-## ما يعمل
-- إدخال URL.
-- API خلفي.
-- تحقق من الرابط.
-- اتصال حقيقي بـ Google Web Risk Lookup API.
-- فحص MALWARE / SOCIAL_ENGINEERING / UNWANTED_SOFTWARE.
-- شرح النتيجة.
+يعمل فعليًا في المتصفح:
+- محادثات وإرسال رسائل محليًا.
+- إنشاء مجموعات.
+- إنشاء مساحات رحلة/لعبة/دراسة.
+- فتح المساحة وعرض محتواها.
+- واجهة عربية مناسبة للجوال.
 
-## البنية
-GitHub Pages → Cloudflare Worker → Google Web Risk.
+هذه نسخة إثبات فكرة، وليست بعد نظام مراسلة متعدد المستخدمين. لا تحتاج Cloudflare أو Google أو OpenAI. البيانات محلية؛ المرحلة التالية تحتاج Backend وقاعدة بيانات ومصادقة وإشعارات.
 
-لا تضع مفتاح Google داخل `index.html`. أضفه كـ Secret في الـWorker باسم `GOOGLE_WEB_RISK_API_KEY`.
-
-بعد نشر الـWorker، غيّر طلب `/api/check` في `index.html` إلى عنوان الـWorker إذا كان على نطاق مختلف.
-
-Google Web Risk Lookup يدعم URL واحدًا لكل طلب، وتوفر Google حاليًا 100,000 استعلام Lookup مجانًا شهريًا قبل التسعير حسب الاستخدام.
+يمكن فتح index.html مباشرة أو رفع الملفات إلى GitHub Pages.
