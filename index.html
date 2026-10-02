@@ -1,113 +1,101 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#0b0b0d">
-  <title>Rio AI Studio — V0.1</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0d0d10">
+<title>ريو AI Studio — V0.2</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="app">
-  <header class="topbar">
-    <div class="brand"><span class="logo">R</span><span>ريو</span><small>AI Studio</small></div>
-    <div class="top-actions">
-      <button class="icon-btn" aria-label="بحث">⌕</button>
-      <button class="pro-pill" data-action="plans">Pro</button>
-      <button class="icon-btn" aria-label="الإعدادات">⚙</button>
-    </div>
-  </header>
+<div class="app-shell">
+<header class="topbar">
+  <div class="brand"><span class="logo">R</span><div><b>ريو</b><small>AI Studio</small></div></div>
+  <div class="top-actions"><button class="icon" data-action="search">⌕</button><button class="pro" data-action="plans">Pro</button><button class="icon" data-action="settings">⚙</button></div>
+</header>
 
-  <main id="screen-home" class="screen active">
-    <section class="hero">
-      <div>
-        <p class="eyebrow">RIO AI STUDIO</p>
-        <h1>اصنع شيئاً يستحق المشاهدة.</h1>
-        <p class="muted">فيديو، صورة، صوت ومحتوى — من فكرة واحدة.</p>
-      </div>
-      <button class="hero-create" data-action="create">＋ إنشاء جديد</button>
-    </section>
+<main id="home" class="screen active">
+  <section class="welcome">
+    <div><span class="eyebrow">RIO AI STUDIO</span><h1>اصنع شيئاً يستحق المشاهدة.</h1><p>فيديو، صورة، صوت ومحتوى — من فكرة واحدة.</p></div>
+    <button class="primary wide" data-action="create">＋ إنشاء جديد</button>
+  </section>
+  <section class="quick-grid">
+    <button class="quick" data-action="editor"><span>✂</span><b>تحرير فيديو</b><small>ابدأ من ملف موجود</small></button>
+    <button class="quick" data-action="ai-video"><span>✦</span><b>فيديو AI</b><small>حوّل فكرتك إلى فيديو</small></button>
+    <button class="quick" data-action="ai-image"><span>▧</span><b>صورة AI</b><small>أنشئ صورة جديدة</small></button>
+    <button class="quick" data-action="templates"><span>◫</span><b>قوالب</b><small>ابدأ بسرعة</small></button>
+  </section>
+  <section class="section">
+    <div class="section-head"><h2>مشاريعك</h2><button class="link" data-screen="projects">عرض الكل</button></div>
+    <div id="recentProjects" class="project-strip"></div>
+  </section>
+</main>
 
-    <section class="quick-grid">
-      <button class="quick-card" data-action="editor"><span>✂</span><b>تحرير فيديو</b><small>ابدأ من مقطع موجود</small></button>
-      <button class="quick-card" data-action="ai-video"><span>✦</span><b>فيديو بالذكاء الاصطناعي</b><small>حوّل فكرتك إلى فيديو</small></button>
-      <button class="quick-card" data-action="ai-image"><span>▧</span><b>صورة AI</b><small>أنشئ صوراً جديدة</small></button>
-      <button class="quick-card" data-action="templates"><span>◫</span><b>قوالب</b><small>ابدأ بسرعة</small></button>
-    </section>
-
-    <section class="section">
-      <div class="section-head"><h2>مشاريعك</h2><button class="text-btn" data-action="projects">عرض الكل</button></div>
-      <div id="projects" class="projects"></div>
-    </section>
-  </main>
-
-  <main id="screen-create" class="screen">
-    <div class="screen-title"><button class="back" data-action="home">‹</button><h2>إنشاء جديد</h2></div>
-    <div class="create-list">
-      <button class="create-row" data-action="editor"><i>✂</i><div><b>تحرير فيديو</b><small>ابدأ من فيديو أو صور موجودة</small></div><em>›</em></button>
-      <button class="create-row" data-action="ai-video"><i>✦</i><div><b>فيديو بالذكاء الاصطناعي</b><small>حوّل وصفاً إلى فيديو</small></div><em>›</em></button>
-      <button class="create-row" data-action="ai-image"><i>▧</i><div><b>صورة بالذكاء الاصطناعي</b><small>أنشئ صورة من وصف</small></div><em>›</em></button>
-      <button class="create-row" data-action="text-video"><i>T</i><div><b>نص إلى فيديو</b><small>حوّل النص أو المقال إلى محتوى</small></div><em>›</em></button>
-      <button class="create-row" data-action="camera"><i>⌾</i><div><b>الكاميرا</b><small>صوّر مباشرة داخل المشروع</small></div><em>›</em></button>
-    </div>
-  </main>
-
-  <main id="screen-templates" class="screen">
-    <div class="screen-title"><h2>القوالب</h2><button class="icon-btn">⌕</button></div>
-    <div class="chips"><button class="chip active">مميز</button><button class="chip">أعمال</button><button class="chip">ترند</button><button class="chip">سفر</button><button class="chip">مطاعم</button></div>
-    <div class="template-grid">
-      <button class="template"><div class="thumb t1">CITY<br><span>VLOG</span></div><b>فلوق المدينة</b><small>15 ثانية · 1080p</small></button>
-      <button class="template"><div class="thumb t2">PRODUCT</div><b>إعلان منتج</b><small>20 ثانية · 1080p</small></button>
-      <button class="template"><div class="thumb t3">TRAVEL</div><b>مغامرة وسفر</b><small>18 ثانية · 1080p</small></button>
-      <button class="template"><div class="thumb t4">FOOD</div><b>مطاعم ومأكولات</b><small>21 ثانية · 1080p</small></button>
-      <button class="template"><div class="thumb t5">SPORT</div><b>مقطع رياضي</b><small>12 ثانية · 1080p</small></button>
-      <button class="template"><div class="thumb t6">STORY</div><b>قصة قصيرة</b><small>30 ثانية · 1080p</small></button>
-    </div>
-  </main>
-
-  <main id="screen-projects" class="screen">
-    <div class="screen-title"><h2>مشاريعي</h2><button class="hero-create compact" data-action="create">＋ جديد</button></div>
-    <div id="all-projects" class="project-list"></div>
-  </main>
-
-  <main id="screen-account" class="screen">
-    <div class="screen-title"><h2>حسابي</h2></div>
-    <div class="account-card">
-      <div class="avatar">R</div><div><b>حساب ريو</b><small>الخطة المجانية</small></div>
-      <button class="pro-pill" data-action="plans">ترقية</button>
-    </div>
-    <div class="settings-list">
-      <button><span>◉</span> رصيد AI <b>120 نقطة</b></button>
-      <button><span>▣</span> التخزين <b>2 GB</b></button>
-      <button data-action="plans"><span>★</span> الاشتراكات والأسعار <b>›</b></button>
-      <button><span>⚙</span> الإعدادات <b>›</b></button>
-    </div>
-  </main>
-
-  <main id="screen-editor" class="screen editor-screen">
-    <div class="editor-top"><button class="back" data-action="home">‹</button><span>مشروع جديد</span><button class="export" data-action="export">تصدير</button></div>
-    <div class="preview"><div class="preview-art"><span>RIO</span><b>مشروعك هنا</b></div><button class="play">▶</button></div>
-    <div class="timeline"><div class="track"><div class="clip c1">المشهد 1</div><div class="clip c2">المشهد 2</div><div class="clip c3">المشهد 3</div></div><div class="playhead"></div></div>
-    <div class="editor-tools">
-      <button><span>✂</span>قص</button><button><span>♪</span>صوت</button><button><span>T</span>نص</button><button><span>◉</span>ملصقات</button><button><span>✦</span>مؤثرات</button><button><span>◫</span>فلاتر</button>
-    </div>
-  </main>
-
-  <nav class="bottom-nav">
-    <button class="nav active" data-screen="home"><span>⌂</span>الرئيسية</button>
-    <button class="nav" data-screen="create"><span>＋</span>إنشاء</button>
-    <button class="nav" data-screen="templates"><span>◫</span>قوالب</button>
-    <button class="nav" data-screen="projects"><span>▣</span>مشاريعي</button>
-    <button class="nav" data-screen="account"><span>○</span>أنا</button>
-  </nav>
-</div>
-
-<div id="modal" class="modal hidden">
-  <div class="modal-card">
-    <button class="modal-close">×</button>
-    <div id="modal-content"></div>
+<main id="create" class="screen">
+  <div class="titlebar"><button class="back" data-screen="home">‹</button><h2>إنشاء جديد</h2></div>
+  <div class="create-list">
+    <button class="create-row" data-action="editor"><i>✂</i><div><b>تحرير فيديو</b><small>استورد فيديو أو صوراً وابدأ التحرير</small></div><em>›</em></button>
+    <button class="create-row" data-action="ai-video"><i>✦</i><div><b>فيديو بالذكاء الاصطناعي</b><small>اكتب فكرتك وحدد الأسلوب والمقاس</small></div><em>›</em></button>
+    <button class="create-row" data-action="ai-image"><i>▧</i><div><b>صورة بالذكاء الاصطناعي</b><small>أنشئ صورة من وصف نصي</small></div><em>›</em></button>
+    <button class="create-row" data-action="text-video"><i>T</i><div><b>نص إلى فيديو</b><small>حوّل مقالاً أو نصاً إلى مشاهد</small></div><em>›</em></button>
   </div>
+  <div class="note"><b>المحرك الذكي</b><span>الواجهة جاهزة لربط محركات AI الحقيقية لاحقاً بدون تغيير تجربة المستخدم.</span></div>
+</main>
+
+<main id="templates" class="screen">
+  <div class="titlebar"><h2>القوالب</h2><button class="icon" data-action="template-search">⌕</button></div>
+  <div class="chips" id="templateChips">
+    <button class="chip active" data-cat="all">مميز</button><button class="chip" data-cat="business">أعمال</button><button class="chip" data-cat="trend">ترند</button><button class="chip" data-cat="travel">سفر</button><button class="chip" data-cat="food">مطاعم</button>
+  </div>
+  <div id="templateGrid" class="template-grid"></div>
+</main>
+
+<main id="projects" class="screen">
+  <div class="titlebar"><h2>مشاريعي</h2><button class="primary small" data-action="create">＋ جديد</button></div>
+  <div id="projectList" class="project-list"></div>
+</main>
+
+<main id="account" class="screen">
+  <div class="titlebar"><h2>حسابي</h2></div>
+  <div class="account-card"><div class="avatar">R</div><div><b>حساب ريو</b><small>الخطة المجانية</small></div><button class="pro" data-action="plans">ترقية</button></div>
+  <div class="usage"><div><span>رصيد AI</span><b>120 / 120</b></div><div class="bar"><i style="width:100%"></i></div><small>يمكن شراء رصيد إضافي أو الترقية.</small></div>
+  <div class="settings-list">
+    <button data-action="plans"><span>★</span> الاشتراكات والأسعار <b>›</b></button>
+    <button data-action="settings"><span>⚙</span> الإعدادات <b>›</b></button>
+    <button><span>?</span> مركز المساعدة <b>›</b></button>
+  </div>
+</main>
+
+<section id="editor" class="editor-screen">
+  <div class="editor-head"><button class="back" data-screen="home">‹</button><span id="editorTitle">مشروع جديد</span><div><button class="ghost" id="undoBtn">↶</button><button class="export" id="exportBtn">تصدير</button></div></div>
+  <div class="preview-wrap">
+    <div id="preview" class="preview"><div class="empty-preview"><strong>مشروعك هنا</strong><span>استورد فيديو أو صورة للبدء</span><button class="primary small" id="importBtn">استيراد ملف</button></div></div>
+    <video id="video" playsinline></video>
+    <img id="image" alt="">
+    <div id="textOverlay" class="text-overlay"></div>
+    <button id="playBtn" class="play">▶</button>
+  </div>
+  <input id="mediaInput" type="file" accept="video/*,image/*" hidden>
+  <div class="editor-info"><span id="timeLabel">00:00 / 00:00</span><span id="mediaName">لا يوجد ملف</span></div>
+  <input id="seek" class="seek" type="range" min="0" max="100" value="0">
+  <div class="timeline" id="timeline"><div class="timeline-empty">استورد ملفاً ليظهر على المسار الزمني</div></div>
+  <div class="tool-tabs">
+    <button class="tool active" data-tool="media">الوسائط</button><button class="tool" data-tool="text">النص</button><button class="tool" data-tool="filter">الفلاتر</button><button class="tool" data-tool="ratio">المقاس</button><button class="tool" data-tool="audio">الصوت</button>
+  </div>
+  <div id="toolPanel" class="tool-panel"></div>
+</section>
+
+<nav class="bottom-nav">
+  <button class="nav active" data-screen="home"><span>⌂</span>الرئيسية</button>
+  <button class="nav" data-screen="create"><span>＋</span>إنشاء</button>
+  <button class="nav" data-screen="templates"><span>◫</span>قوالب</button>
+  <button class="nav" data-screen="projects"><span>▣</span>مشاريعي</button>
+  <button class="nav" data-screen="account"><span>○</span>أنا</button>
+</nav>
 </div>
+
+<div id="modal" class="modal hidden"><div class="modal-card"><button class="close" id="closeModal">×</button><div id="modalBody"></div></div></div>
+<div id="toast" class="toast"></div>
 <script src="app.js"></script>
 </body>
 </html>
