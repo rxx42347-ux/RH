@@ -7,17 +7,17 @@
 </head>
 <body>
 <aside class="sidebar" id="sidebar">
-  <div class="brand">رِيُو <span>Ai</span></div>
+  <div class="brand"><span class="ar-brand">رِيُو</span> <span class="latin-brand" dir="ltr">Ai</span></div>
   <button class="new-chat" id="newChat">＋ محادثة جديدة</button>
   <div class="chat-list" id="chatList"></div>
   <div class="side-bottom"><button>⚙ الإعدادات</button><button>ⓘ حول رِيُو</button></div>
 </aside>
 <div class="backdrop" id="backdrop"></div>
 <main class="app">
-<header class="topbar"><button id="menuBtn">☰</button><div class="top-brand">رِيُو <span>Ai</span></div><button id="newChatTop">＋</button></header>
+<header class="topbar"><button id="menuBtn">☰</button><div class="top-brand"><span class="ar-brand">رِيُو</span> <span class="latin-brand" dir="ltr">Ai</span></div><button id="newChatTop">＋</button></header>
 <section class="conversation" id="conversation">
   <div class="welcome" id="welcome">
-    <div class="logo-mark">رِيُو <span>Ai</span></div>
+    <div class="logo-mark"><span class="ar-brand">رِيُو</span> <span class="latin-brand" dir="ltr">Ai</span></div>
     <h1>كيف يمكنني مساعدتك؟</h1>
     <p>اكتب ما تريد إلى رِيُو.</p>
     <div class="suggestions">
@@ -34,9 +34,9 @@
     <button data-tool="camera">📷 كاميرا</button><button data-tool="voice">🎙️ صوت</button>
   </div>
   <div class="composer">
-    <button class="round" id="attachBtn">＋</button>
+    <button class="round" id="attachBtn" aria-label="إرفاق"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
     <textarea id="input" rows="1" placeholder="اكتب رسالتك إلى رِيُو..."></textarea>
-    <button class="round" id="voiceBtn">🎙</button><button class="send" id="sendBtn">↑</button>
+    <button class="round mic" id="voiceBtn" aria-label="تسجيل صوتي"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="3.5" width="8" height="12" rx="4"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3M9 21h6"/></svg></button><button class="send" id="sendBtn" aria-label="إرسال"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6.5 10.5 12 5l5.5 5.5"/></svg></button>
   </div>
   <div class="note">رِيُو Ai قد يخطئ أحيانًا، فتحقق من المعلومات المهمة.</div>
 </section>
