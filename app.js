@@ -12,7 +12,7 @@ function closeSide(){$("#sidebar").classList.remove("open");$("#backdrop").class
 $("#sendBtn").onclick=send;$("#newChat").onclick=newChat;$("#newChatTop").onclick=newChat;
 $("#menuBtn").onclick=()=>{$("#sidebar").classList.add("open");$("#backdrop").classList.add("open")};$("#backdrop").onclick=closeSide;
 $("#attachBtn").onclick=()=>$("#attachmentMenu").classList.toggle("open");
-$("#voiceBtn").onclick=()=>alert("سيتم ربط الصوت بالمحرك الحقيقي في المرحلة التالية.");
+$("#voiceBtn").onclick=()=>{const t=document.createElement("div");t.className="toast";t.textContent="الصوت سيكون متاحًا عند ربط المحرك الصوتي.";document.body.appendChild(t);requestAnimationFrame(()=>t.classList.add("show"));setTimeout(()=>{t.classList.remove("show");setTimeout(()=>t.remove(),180)},2200)};
 $("#attachmentMenu").onclick=e=>{const b=e.target.closest("[data-tool]");if(!b)return;$("#attachmentMenu").classList.remove("open");if(b.dataset.tool==="voice")return;$("#fileInput").click()};
 $("#fileInput").onchange=e=>{if(e.target.files.length)addMessage("user","أرفقت: "+[...e.target.files].map(f=>f.name).join("، "))};
 input.oninput=()=>{input.style.height="auto";input.style.height=Math.min(input.scrollHeight,150)+"px"};

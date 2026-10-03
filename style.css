@@ -34,3 +34,6 @@
 .composer{min-height:56px}
 .composer .round svg{width:18px;height:18px}
 .composer .send svg{width:18px;height:18px}
+
+/* V1.0.3 */
+.suggestions{grid-template-columns:1fr 1fr;gap:9px}.suggestions button{min-height:64px;padding:11px 14px;display:flex;flex-direction:column;justify-content:center;gap:4px;background:#121212}.suggestions button b{font-size:14px;color:#eee}.suggestions button small{font-size:11px;color:#777}.attachment-menu{width:248px;left:auto;right:calc(50% - 380px);padding:8px;border-radius:17px;background:#171717;border-color:#303030}.attachment-menu button{display:flex;align-items:center;gap:9px;min-height:48px;padding:8px 10px;color:#ddd}.attachment-menu button i{font-style:normal;width:29px;height:29px;border:1px solid #3b3b3b;border-radius:9px;display:grid;place-items:center;color:#ddd}.composer{box-shadow:0 5px 28px #000a}.toast{position:fixed;left:50%;bottom:92px;transform:translate(-50%,12px);background:#242424;color:#eee;border:1px solid #3a3a3a;border-radius:12px;padding:10px 14px;font-size:12px;opacity:0;transition:.18s;z-index:50}.toast.show{opacity:1;transform:translate(-50%,0)}@media(max-width:800px){.suggestions{grid-template-columns:1fr 1fr}.attachment-menu{right:10px;left:auto;width:248px}}
