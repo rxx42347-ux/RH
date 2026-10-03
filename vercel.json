@@ -11,8 +11,8 @@
     { "src": "health.js", "use": "@vercel/node" }
   ],
   "routes": [
-    { "src": "/api/ai", "methods": ["POST"], "dest": "/ai.js" },
-    { "src": "/api/status", "methods": ["GET"], "dest": "/status.js" },
-    { "src": "/api/health", "methods": ["GET"], "dest": "/health.js" }
+    { "src": "/api/ai", "methods": ["POST", "OPTIONS"], "dest": "/ai.js" },
+    { "src": "/api/status", "methods": ["GET", "OPTIONS"], "dest": "/status.js" },
+    { "src": "/api/health", "methods": ["GET", "OPTIONS"], "dest": "/health.js" }
   ]
 }
