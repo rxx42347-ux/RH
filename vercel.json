@@ -1,13 +1,28 @@
 {
   "version": 2,
   "rewrites": [
-    { "source": "/api/ai", "destination": "/ai.js" },
-    { "source": "/api/status", "destination": "/status.js" },
-    { "source": "/api/health", "destination": "/health.js" }
+    {
+      "source": "/api/ai",
+      "destination": "/ai.js"
+    },
+    {
+      "source": "/api/status",
+      "destination": "/status.js"
+    },
+    {
+      "source": "/api/health",
+      "destination": "/health.js"
+    }
   ],
   "functions": {
-    "ai.js": { "runtime": "nodejs20.x" },
-    "status.js": { "runtime": "nodejs20.x" },
-    "health.js": { "runtime": "nodejs20.x" }
+    "ai.js": {
+      "runtime": "nodejs24.x"
+    },
+    "status.js": {
+      "runtime": "nodejs24.x"
+    },
+    "health.js": {
+      "runtime": "nodejs24.x"
+    }
   }
 }
