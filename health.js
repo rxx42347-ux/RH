@@ -1,0 +1,1 @@
+export default function handler(req,res){res.status(200).json({ok:true,configured:Boolean(process.env.FAL_KEY),service:'rio-ai-studio',version:'0.5.0'})}
