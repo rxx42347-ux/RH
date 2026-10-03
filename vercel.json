@@ -1,28 +1,18 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "version": 2,
-  "rewrites": [
-    {
-      "source": "/api/ai",
-      "destination": "/ai.js"
-    },
-    {
-      "source": "/api/status",
-      "destination": "/status.js"
-    },
-    {
-      "source": "/api/health",
-      "destination": "/health.js"
-    }
+  "framework": null,
+  "builds": [
+    { "src": "index.html", "use": "@vercel/static" },
+    { "src": "style.css", "use": "@vercel/static" },
+    { "src": "app.js", "use": "@vercel/static" },
+    { "src": "ai.js", "use": "@vercel/node" },
+    { "src": "status.js", "use": "@vercel/node" },
+    { "src": "health.js", "use": "@vercel/node" }
   ],
-  "functions": {
-    "ai.js": {
-      "runtime": "nodejs24.x"
-    },
-    "status.js": {
-      "runtime": "nodejs24.x"
-    },
-    "health.js": {
-      "runtime": "nodejs24.x"
-    }
-  }
+  "routes": [
+    { "src": "/api/ai", "methods": ["POST"], "dest": "/ai.js" },
+    { "src": "/api/status", "methods": ["GET"], "dest": "/status.js" },
+    { "src": "/api/health", "methods": ["GET"], "dest": "/health.js" }
+  ]
 }

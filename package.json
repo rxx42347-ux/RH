@@ -1,7 +1,7 @@
 {
   "name": "rio-ai-studio",
   "private": true,
-  "version": "0.5.0",
+  "version": "0.5.2",
   "type": "module",
   "dependencies": {
     "@fal-ai/client": "^1.6.2"
