@@ -37,3 +37,26 @@
 
 /* V1.0.3 */
 .suggestions{grid-template-columns:1fr 1fr;gap:9px}.suggestions button{min-height:64px;padding:11px 14px;display:flex;flex-direction:column;justify-content:center;gap:4px;background:#121212}.suggestions button b{font-size:14px;color:#eee}.suggestions button small{font-size:11px;color:#777}.attachment-menu{width:248px;left:auto;right:calc(50% - 380px);padding:8px;border-radius:17px;background:#171717;border-color:#303030}.attachment-menu button{display:flex;align-items:center;gap:9px;min-height:48px;padding:8px 10px;color:#ddd}.attachment-menu button i{font-style:normal;width:29px;height:29px;border:1px solid #3b3b3b;border-radius:9px;display:grid;place-items:center;color:#ddd}.composer{box-shadow:0 5px 28px #000a}.toast{position:fixed;left:50%;bottom:92px;transform:translate(-50%,12px);background:#242424;color:#eee;border:1px solid #3a3a3a;border-radius:12px;padding:10px 14px;font-size:12px;opacity:0;transition:.18s;z-index:50}.toast.show{opacity:1;transform:translate(-50%,0)}@media(max-width:800px){.suggestions{grid-template-columns:1fr 1fr}.attachment-menu{right:10px;left:auto;width:248px}}
+
+/* V1.0.4 — final agreed visual polish */
+.brand-lockup{direction:ltr!important;unicode-bidi:isolate;display:flex;align-items:center;justify-content:center;gap:5px}
+.brand-lockup .latin-brand{order:1;direction:ltr;unicode-bidi:isolate;font-family:Arial,sans-serif}
+.brand-lockup .ar-brand{order:2;direction:rtl;unicode-bidi:isolate;font-family:Arial,"Noto Sans Arabic",sans-serif}
+.brand{font-size:24px}
+.top-brand{font-size:20px}
+.logo-mark{font-size:34px;margin-bottom:14px}
+.welcome h1{font-size:27px;font-weight:600;margin-bottom:9px}
+.welcome p{font-size:14px;margin-bottom:28px}
+.suggestions button{border-radius:17px;min-height:62px}
+.composer{border-radius:24px}
+.composer textarea{font-size:15px}
+.round,.send{width:40px;height:40px}
+.round svg,.send svg{width:18px;height:18px}
+@media(max-width:800px){
+ .logo-mark{font-size:31px;margin-bottom:13px}
+ .welcome h1{font-size:25px}
+ .welcome p{font-size:13px}
+ .suggestions{gap:10px}
+ .suggestions button{min-height:60px}
+ .composer{height:58px}
+}
