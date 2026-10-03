@@ -19,3 +19,18 @@
   .composer-wrap{padding:8px 12px 11px}
   .composer textarea{font-size:15px}
 }
+
+/* V1.0.2 — final visual correction */
+.brand[dir="ltr"],.top-brand[dir="ltr"],.logo-mark[dir="ltr"]{
+  direction:ltr;
+  unicode-bidi:isolate;
+  justify-content:center;
+}
+.brand[dir="ltr"]{gap:7px}
+.top-brand[dir="ltr"]{gap:6px}
+.logo-mark[dir="ltr"]{gap:8px}
+.ar-brand{font-family:Arial,"Noto Sans Arabic",sans-serif;font-weight:800}
+.latin-brand{font-family:Arial,sans-serif;font-weight:700;direction:ltr;unicode-bidi:isolate}
+.composer{min-height:56px}
+.composer .round svg{width:18px;height:18px}
+.composer .send svg{width:18px;height:18px}
